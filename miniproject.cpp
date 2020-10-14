@@ -113,7 +113,7 @@ class CustomerControler{
                     }//if  
                     cur = cur->next;
                  } //while
-                       return false;               
+                       return false;    //return flase           
         }//check
         bool CheckIdCard(string Idcard){
               //เช็คว่าบัตรประชน
