@@ -151,6 +151,40 @@ class Ticket{
 };
 //roundlist
 //roundlist
+class Roundlist{
+    private:
+        string Departure,string Terminal,string TravelTime,string TimeOut[5],string TimeTo[5];
+
+    public:
+        Roundlist *next;
+        Round(string timeout,string timeto,int i){       
+                TimeOut[i] = timeout[i];
+                TimeTo[i] = timeto[i];    
+            next = NULL;
+        }
+        Roundlist(string departure,string terminal,string travel){
+            //set station&time
+            Departure = departure;
+            Terminal = terminal;
+            TravelTime = travel;
+            next = NULL;
+        }
+        string getDepature(){
+            return Departure;
+        }
+        string getTerminal(){
+            return Terminal;
+        }
+        string getTravelTime(){
+            return TravelTime;
+        }
+        string TimeOut(int i){
+            return TimeOut[i];
+        }
+        string TimeTo(int i){
+            return TimeTo[i];
+        }
+};
 class Round{
     private:
 
@@ -158,9 +192,6 @@ class Round{
         void loaddata(){
                 
         }
-};
-class Roundlist{
-
 };
 void printmenu(){
     //แสดงหน้าเมนูหลัก
