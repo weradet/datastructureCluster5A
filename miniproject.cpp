@@ -125,6 +125,7 @@ class CustomerControler{
                    }
                    cur = cur->next;   //next
               } //while
+                       return false;
         }//checkcard
         void show(){
             CustomerUser *cur = head;
@@ -209,7 +210,7 @@ int main(){
     CustomerControler *customerControl = new CustomerControler(); //obj customerconntroler
     //main Program
     int main_menu;
-  customerControl->show();
+  //customerControl->show();
   do{
       // customerControl->show();
        //system("cls");
@@ -258,14 +259,28 @@ int main(){
           cout << "\t\t\t\t\t+Please Enter Information+" << endl;
           cout << "\t\t\t\t\t+========================+" << endl;
              do{
+                 //เช็คว่ามีชื่อผู้ใช้หรือไม่
               cout << "\t\t\t\t\tPlease Enter Username : "; cin >> username; //ใส่ username
              }while(customerControl->CheckUserName(username)!=false);
-          cout << "\t\t\t\t\tPlease Enter Password : ";            cin >> user_pass; //ใส่รหัสผ่าน
-          cout << "\t\t\t\t\tPlease Enter Name : ";                cin >> name; // กรอกชื่อ
-          cout << "\t\t\t\t\tPlease Enter Lastname : ";            cin >> lastname;  // กรอกนามสกุล
-          cout << "\t\t\t\t\tPlease Enter Identification Card : "; cin >> id_card; 
-          cout << "\t\t\t\t\tPlease Enter Telephone Number : ";    cin >> tel;  // กรอกนามสกุล
-          cout << "\t\t\t\t\tDo you want to continue? (y/n) : ";  cin >> is_commit;
+             string pass_again;
+            do{
+              cout << "\t\t\t\t\tPlease Enter Password : ";            cin >> user_pass; //ใส่รหัสผ่าน
+              cout << "\t\t\t\t\tPlease Enter Password Again!! : ";    cin >> pass_again; //ใส่รหัสผ่าน
+            }while(user_pass==pass_again);
+              cout << "Your Password id Ok";
+              cout << "\t\t\t\t\tPlease Enter Name : ";                cin >> name; // กรอกชื่อ
+              cout << "\t\t\t\t\tPlease Enter Lastname : ";            cin >> lastname;  // กรอกนามสกุล
+            
+            do{
+                 cout << "\t\t\t\t\tPlease Enter Identification Card : "; cin >> id_card;
+                if(id_card.length()<13){
+                    //เช็คว่าผู้ใช้ป้อนรหัสมา13หลักหรือไม่
+                    cout << "Identification Card At least 13 digit !!" << endl; 
+                }
+            }while(customerControl->CheckIdCard(id_card)!=false&&id_card.length()==13);
+            
+              cout << "\t\t\t\t\tPlease Enter Telephone Number : ";    cin >> tel;  // กรอกนามสกุล
+              cout << "\t\t\t\t\tDo you want to continue? (y/n) : ";  cin >> is_commit;
              while(is_commit!='y'&&is_commit!='n'){
                  //ถ้าผู้ใช้ไม่กด y และ n จะให้กรอกไหม่
                   cout << "Please Enter (y,n)" << endl;
