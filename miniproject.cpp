@@ -152,12 +152,13 @@ class Ticket{
 //roundlist
 class Roundlist{
     private:
-        int i;
+        int i; //i = index
         string Departure,terminal,TravelTime,TimeOut[5],TimeTo[5];
-
+                                                //array string TimeOut,TimeTo        
     public:
         Roundlist *next;
         void SetRoundlist(string timeout,string timeto){ 
+            //set array string
                 TimeOut[i++] = timeout;
                 TimeTo[i++] = timeto;           
         }
@@ -169,19 +170,19 @@ class Roundlist{
             next = NULL;
         }
         string getDepature(){
-            return Departure;
+            return Departure;//return string
         }
         string getTerminal(){
-            return terminal;
+            return terminal;//return string
         }
         string getTravelTime(){
-            return TravelTime;
+            return TravelTime;//return string
         }
         string Timeout(int i){
-            return TimeOut[i];
+            return TimeOut[i];//return string array
         }
         string Timeto(int i){
-            return TimeTo[i];
+            return TimeTo[i];//return string array
         }
 };
 /*class Round{
