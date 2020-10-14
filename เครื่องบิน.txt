@@ -1,0 +1,27 @@
+﻿//จองตั๋วเครื่องบิน
+1. สมัคร/ล็อคอิน
+2. จองตั๋ว
+3. โปรโมชั่น
+4. รอบ
+5. จองตั๋วล่วงหน้า
+6. รายละเอียดตั๋ว 
+   - ชำระค่าใช้จ่าย
+7.
+class 
+ -Ticket
+   ตัวแปร
+   Seat:string,seatClass:string,
+   round:Round,member:Member,Gate:string
+    -method 
+     
+ -Member
+  ตัวแปร
+   FirstName:string,LastName:string,
+   point:int,pass:string
+
+ -Round
+  ตัวแปร
+  timeOut:string,departure:string,
+  terminal:string,cost:int,date:string
+ 
+
