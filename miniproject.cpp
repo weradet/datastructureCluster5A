@@ -1,6 +1,5 @@
  #include<iostream>
 #include<string>
-#include<iostream>
 #include<fstream>
 #include<time.h>
 using namespace std;
@@ -207,7 +206,7 @@ int main(){
                          cout << " 2. Advance Booking" << endl;
                          cout << " 3. Exchange points" << endl;
                          cout << " 4. Back to loggin " << endl;
-                       while(member_menu!=3);
+                       }while(member_menu!=3);
                  }
              }//if
           }while(menu_login != 2);
@@ -215,7 +214,7 @@ int main(){
        else if(main_menu == 2){
           //user register
           string username,user_pass,name,lastname,tel,id_card; //ประกาศตัวแปร
-          char commit;
+          char is_commit;
           cout << "\t\t\t\t\t==========================" << endl;
           cout << "\t\t\t\t\t+       Register         +" << endl;
           cout << "\t\t\t\t\t+========================+" << endl;
@@ -229,17 +228,17 @@ int main(){
           cout << "\t\t\t\t\tPlease Enter Lastname : ";            cin >> lastname;  // กรอกนามสกุล
           cout << "\t\t\t\t\tPlease Enter Identification Card : "; cin >> id_card; 
           cout << "\t\t\t\t\tPlease Enter Telephone Number : ";    cin >> tel;  // กรอกนามสกุล
-          cout << "\t\t\t\t\tDo you want to continue? (y/n) : ";  cin >> commit;
-             while(commit!='y'&&commit!='n'){
+          cout << "\t\t\t\t\tDo you want to continue? (y/n) : ";  cin >> is_commit;
+             while(is_commit!='y'&&is_commit!='n'){
                  //ถ้าผู้ใช้ไม่กด y และ n จะให้กรอกไหม่
                   cout << "Please Enter (y,n)" << endl;
-                  cout << "\t\t\t\t\tDo you want to continue? (y/n) : ";  cin >> commit;
+                  cout << "\t\t\t\t\tDo you want to continue? (y/n) : ";  cin >> is_commit;
              }//while
-             if(commit == 'y'){
+             if(is_commit == 'y'){
                  customerControl->ResigerUser(username,user_pass,name,lastname,tel,id_card);  
                  cout << "Save Complete" << endl;
              }
-             else if(commit == 'n'){
+             else if(is_commit == 'n'){
                  cout << "Cannot Save" << endl;
              }
        }
