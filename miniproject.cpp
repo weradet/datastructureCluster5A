@@ -202,10 +202,11 @@ int main(){
                      int member_menu;
                      do{
                          //menu Flights Booking
-                         cout << " 1. Flights Booking" << endl;
-                         cout << " 2. Advance Booking" << endl;
-                         cout << " 3. Exchange points" << endl;
-                         cout << " 4. Back to loggin " << endl;
+                         cout << "\t\t\t\t\t 1. Flights Booking" << endl;
+                         cout << "\t\t\t\t\t 2. Advance Booking" << endl;
+                         cout << "\t\t\t\t\t 3. Exchange points" << endl;
+                         cout << "\t\t\t\t\t 4. Back to loggin " << endl;
+                         cout << "Please Enter Choice : "; cin >> member_menu;
                        }while(member_menu!=3);
                  }
              }//if
