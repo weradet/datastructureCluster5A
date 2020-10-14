@@ -266,14 +266,14 @@ int main(){
             do{
               cout << "\t\t\t\t\tPlease Enter Password : ";            cin >> user_pass; //ใส่รหัสผ่าน
               cout << "\t\t\t\t\tPlease Enter Password Again!! : ";    cin >> pass_again; //ใส่รหัสผ่าน
-            }while(user_pass==pass_again);
-              cout << "Your Password id Ok";
+            }while(user_pass!=pass_again);
+              cout << "\t\t\t\t\tYour Password id Ok" << endl;
               cout << "\t\t\t\t\tPlease Enter Name : ";                cin >> name; // กรอกชื่อ
               cout << "\t\t\t\t\tPlease Enter Lastname : ";            cin >> lastname;  // กรอกนามสกุล
             
             do{
                  cout << "\t\t\t\t\tPlease Enter Identification Card : "; cin >> id_card;
-                if(id_card.length()<13){
+                if(id_card.length()<13 || id_card.length()>13){
                     //เช็คว่าผู้ใช้ป้อนรหัสมา13หลักหรือไม่
                     cout << "Identification Card At least 13 digit !!" << endl; 
                 }
