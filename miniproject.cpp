@@ -124,7 +124,7 @@ class CustomerControler{
                        return true;
                        break; 
                    }
-                   cur = cur->next;   
+                   cur = cur->next;   //next
               } //while
         }//checkcard
         void show(){
@@ -158,6 +158,9 @@ class Round{
         void loaddata(){
                 
         }
+};
+class Roundlist{
+
 };
 void printmenu(){
     //แสดงหน้าเมนูหลัก
