@@ -2,6 +2,7 @@
 #include<string>
 #include<fstream>
 #include<time.h>
+#include<conio.h>
 using namespace std;
 class CustomerUser{   
      private: 
@@ -223,8 +224,10 @@ int main(){
        else if(main_menu == 1){
            //user Loggin
          int menu_login;  
-         string username,user_pass;
+         string username,user_pass="";
+         char star;
           do{
+           cout << endl;   
            cout << "\t\t\t\t\t+========================+" << endl;
            cout << "\t\t\t\t\t+       Login            +" << endl;
            cout << "\t\t\t\t\t+========================+" << endl;
@@ -234,24 +237,30 @@ int main(){
            cout << "Please Enter Choice : "; cin >> menu_login;
              if(menu_login==1){
                  cout << "\t\t\t\t\tPlease Enter Username : "; cin >> username; //ใส่ username
-                 cout << "\t\t\t\t\tPlease Enter Password : "; cin >> user_pass; //ใส่รหัสผ่าน
+                 cout << "\t\t\t\t\tPlease Enter Password : ";  star = _getch();
+                 while(star!=13){
+                    user_pass.push_back(star);
+                       cout << '*';
+                       star = _getch();
+                 }
                  if(customerControl->LogginCustomer(username,user_pass)){
                      int member_menu;
                      do{
                          //menu Flights Booking
+                         cout << endl;
                          cout << "\t\t\t\t\t 1. Flights Booking" << endl;
                          cout << "\t\t\t\t\t 2. Advance Booking" << endl;
                          cout << "\t\t\t\t\t 3. Exchange points" << endl;
                          cout << "\t\t\t\t\t 4. Back to loggin " << endl;
                          cout << "Please Enter Choice : "; cin >> member_menu;//member
-                       }while(member_menu!=3);
+                       }while(member_menu!=4);
                  }
              }//if
           }while(menu_login != 2);
        }//else if
        else if(main_menu == 2){
           //user register
-          string username,user_pass,name,lastname,tel,id_card; //ประกาศตัวแปร
+          string username,user_pass="",name,lastname,tel,id_card; //ประกาศตัวแปร
           char is_commit;
           cout << "\t\t\t\t\t==========================" << endl;
           cout << "\t\t\t\t\t+       Register         +" << endl;
@@ -262,7 +271,7 @@ int main(){
                  //เช็คว่ามีชื่อผู้ใช้หรือไม่
               cout << "\t\t\t\t\tPlease Enter Username : "; cin >> username; //ใส่ username
              }while(customerControl->CheckUserName(username)!=false);
-             string pass_again;
+             string pass_again = "";
             do{
               cout << "\t\t\t\t\tPlease Enter Password : ";            cin >> user_pass; //ใส่รหัสผ่าน
               cout << "\t\t\t\t\tPlease Enter Password Again!! : ";    cin >> pass_again; //ใส่รหัสผ่าน
@@ -286,6 +295,7 @@ int main(){
                   cout << "Please Enter (y,n)" << endl;
                   cout << "\t\t\t\t\tDo you want to continue? (y/n) : ";  cin >> is_commit;
              }//while
+
              if(is_commit == 'y'){
                  customerControl->ResigerUser(username,user_pass,name,lastname,tel,id_card);  
                  cout << "Save Complete" << endl;
