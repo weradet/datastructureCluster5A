@@ -206,7 +206,7 @@ int main(){
                          cout << "\t\t\t\t\t 2. Advance Booking" << endl;
                          cout << "\t\t\t\t\t 3. Exchange points" << endl;
                          cout << "\t\t\t\t\t 4. Back to loggin " << endl;
-                         cout << "Please Enter Choice : "; cin >> member_menu;
+                         cout << "Please Enter Choice : "; cin >> member_menu;//member
                        }while(member_menu!=3);
                  }
              }//if
