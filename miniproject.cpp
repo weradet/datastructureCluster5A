@@ -1,4 +1,4 @@
- #include<iostream>
+#include<iostream>
 #include<string>
 #include<fstream>
 #include<time.h>
@@ -21,7 +21,6 @@ class CustomerUser{
           Idcard = id_card;
           next = NULL;
       }
-   
      string getUsername(){
           return Username; 
      } //getusername
@@ -153,19 +152,19 @@ class Ticket{
 //roundlist
 class Roundlist{
     private:
-        string Departure,string Terminal,string TravelTime,string TimeOut[5],string TimeTo[5];
+        int i;
+        string Departure,terminal,TravelTime,TimeOut[5],TimeTo[5];
 
     public:
         Roundlist *next;
-        Round(string timeout,string timeto,int i){       
-                TimeOut[i] = timeout[i];
-                TimeTo[i] = timeto[i];    
-            next = NULL;
+        void SetRoundlist(string timeout,string timeto){ 
+                TimeOut[i++] = timeout;
+                TimeTo[i++] = timeto;           
         }
-        Roundlist(string departure,string terminal,string travel){
+        Roundlist(string departure,string ter,string travel){
             //set station&time
             Departure = departure;
-            Terminal = terminal;
+            terminal = ter;
             TravelTime = travel;
             next = NULL;
         }
@@ -173,26 +172,26 @@ class Roundlist{
             return Departure;
         }
         string getTerminal(){
-            return Terminal;
+            return terminal;
         }
         string getTravelTime(){
             return TravelTime;
         }
-        string TimeOut(int i){
+        string Timeout(int i){
             return TimeOut[i];
         }
-        string TimeTo(int i){
+        string Timeto(int i){
             return TimeTo[i];
         }
 };
-class Round{
+/*class Round{
     private:
 
     public:
         void loaddata(){
                 
         }
-};
+};*/
 void printmenu(){
     //แสดงหน้าเมนูหลัก
     ifstream  file("menu.txt",ios::in);
