@@ -1,0 +1,18 @@
+Samui Airport (USM),Suvarnabhumi Airport (BKK),1h 25m,10:30 → 12:00,10:35 → 12:00,14:40 → 16:10,14:45 → 16:10,15:00 → 16:30
+Suvarnabhumi Airport (BKK),Samui Airport (USM),1h 20m,08:30 → 09:50,12:00 → 13:10,15:50 → 17:00,19:30 → 20:40,20:30 → 21:40
+Suvarnabhumi Airport (BKK),Phuket Airport (HKT),1h 10m,06:15 → 07:45,10:00 → 11:30,14:30 → 16:00,19:40 → 21:10,22:40 → 23:59
+Suvarnabhumi Airport (BKK),Chiang Mai Airport (CNX),1h 10m,05:10 → 06:25,09:40 → 11:00,12:55 → 14:15,17:05 → 18:25,22:25 → 23:40
+Phuket Airport (HKT),Suvarnabhumi Airport (BKK),1h 5m,06:15 → 07:20,09:30 → 10:55,12:20 → 13:50,19:50 → 21:20,22:15 → 23:45
+Suvarnabhumi Airport (BKK),Krabi Airport (KBV),1h 15m,07:10 → 08:35,09:40 → 11:05,13:50 → 15:15,17:20 → 18:50,19:25 → 20:50
+Krabi Airport (KBV),Suvarnabhumi Airport (BKK),1h 10m,09:05 → 10:30,10:50 → 12:15,12:15 → 13:35,15:45 → 17:10,21:20 → 22:45
+Suvarnabhumi Airport (BKK),Chiang Rai Airport (CEI),1h 15m,06:30 → 07:55,07:20 → 08:35,11:20 → 12:45,14:00 → 15:30,19:10 → 20:35
+Chiang Rai Airport (CEI),Suvarnabhumi Airport (BKK),1h 15m,08:25 → 09:50,09:05 → 10:30,10:05 → 11:35,13:15 → 14:35,21:05 → 22:35
+Phuket Airport (HKT),Samui Airport (USM),55m,09:45 → 10:40,11:05 → 12:00,13:30 → 14:25,16:35 → 17:30,19:50 → 20:45
+Samui Airport (USM),Phuket Airport (HKT),1h,08:15 → 09:15,11:00 → 12:00,12:40 → 13:40,15:05 → 16:05,19:05 → 20:05
+Chiang Mai Airport (CNX),Suvarnabhumi Airport (BKK),1h 5m,06:50 → 08:00,08:00 → 09:20,08:40 → 09:45,15:05 → 16:30,22:30 → 23:50
+Don Mueang Airport (DMK),Chiang Mai Airport (CNX),1h 10m,05:10 → 06:25,06:45 → 08:00,07:00 → 08:10,14:40 → 16:05,22:20 → 23:35
+Lampang Airport (LPT),Suvarnabhumi Airport (BKK),1h 10m,09:15 → 10:35,10:20 → 11:55,13:55 → 15:30,19:00 → 20:35,19:15 → 20:25					
+Suvarnabhumi Airport (BKK),Lampang Airport (LPT),1h 15m,07:15 → 08:35,11:50 → 13:20,12:25 → 13:45,16:55 → 18:30,17:30 → 18:45
+Phuket Airport (HKT),Don Mueang Airport (DMK),1h 5m,06:15 → 07:20,08:35 → 10:00,09:30 → 10:55,20:20 → 21:45,23:45 → 01:10
+Chiang Mai Airport (CNX),Don Mueang Airport (DMK),1h 5m,06:50 → 08:00,08:30 → 09:40,15:30 → 16:45,18:45 → 20:00,22:55 → 00:00	
+Hat Yai Airport (HDY),Don Mueang Airport (DMK),1h 20m,07:55 → 09:20,08:30 → 10:00,08:40 → 10:10,10:55 → 12:20,11:15 → 12:40	
