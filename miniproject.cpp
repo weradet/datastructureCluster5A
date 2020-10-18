@@ -174,6 +174,7 @@ class TimeQueue{
         void enqueue(string value){
             /*
               นำรอเวลาในเที่ยวบินทุกอันมาตัด
+              แล้วนำเข้าใส่อาเรย์ในคิว
             */
                 timeout[rear++] = value.substr(0,value.find(','));
                 value.erase(0,value.find(',')+1);
@@ -289,6 +290,7 @@ class Round{
                cout << "Cannot Open File" << endl;
                  }
         }//loaddata
+
         void printlist(){
             Roundlist *cur=head;
              while(cur != NULL){
@@ -323,11 +325,14 @@ int main(){
     //main Program
     int main_menu;
     Round *round = new Round();
+    time_t my_time = time(NULL); 
+    // ctime() used to give the present time 
     //round->Addtimeline();
   do{
       // customerControl->show();
        //system("cls");
        printmenu();
+       cout <<"  \t\t\t\t\t" << ctime(&my_time);
     try{
        cout <<  "Choose Menu (1-5) : "; cin >> main_menu; //user Input
        if (!cin){
@@ -381,7 +386,7 @@ int main(){
                              if(!cin)
                                throw member_menu;
                              if(member_menu == 1){
-                                 round->printlist();       
+                                // round->printlist();       
                                } //if  
                          }//try
                          catch(int menu)
