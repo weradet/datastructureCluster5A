@@ -4,6 +4,7 @@
 #include<time.h>
 #include<conio.h>
 using namespace std;
+
 class CustomerUser{   
      private: 
       string Username,Password,Name,Lastname,Tel,Idcard;
@@ -41,6 +42,7 @@ class CustomerUser{
          return Idcard;
      }
 };
+
 class CustomerControler{
      private:
         CustomerUser *head;
@@ -147,23 +149,93 @@ class CustomerControler{
             file.close(); // ปิดไฟล์
         }
 };
-class Ticket{
 
+//roundlist
+//roundlist
+class TimeQueue{
+    /*
+        Queue Time 
+        รอบเวลาต่างๆในเที่ยวบิน
+    */
+    private:
+       string *timeout;
+       int max;
+       int count;
+       int font;
+       int rear;
+    public:
+       TimeQueue(){
+            timeout = new string[5];
+            max = 5;
+            count = 0;
+            font = 0;
+            rear = 0;
+       } 
+        void enqueue(string value){
+            /*
+              นำรอเวลาในเที่ยวบินทุกอันมาตัด
+            */
+                timeout[rear++] = value.substr(0,value.find(','));
+                value.erase(0,value.find(',')+1);
+                timeout[rear++] = value.substr(0,value.find(','));
+                value.erase(0,value.find(',')+1);
+                timeout[rear++] = value.substr(0,value.find(','));
+                value.erase(0,value.find(',')+1); 
+                timeout[rear++] = value.substr(0,value.find(','));
+                value.erase(0,value.find(',')+1); 
+                timeout[rear++] = value.substr(0,value.find(','));
+                value.erase(0,value.find(',')+1);
+                count++;
+        }
+          void dequeue(){
+            if(isempty()){
+                cout << "Empty Queue" << endl; 
+            }else if(count == 1){
+                cout << "arr is Dequeue " << timeout[font++] << endl; 
+                count--;
+                font = 0;
+                rear = 0;
+            }
+            else{
+                cout << "arr is Dequeue " << timeout[font++] << endl; 
+                count--;
+            }      
+        }
+        void show(){
+            for(int i =font;i<rear;i++){
+                 cout << timeout[i] << endl;
+            }
+        } 
+        bool isempty(){
+            if(font==rear){
+                 return true;
+            }else{
+                return false;
+            }
+        } 
+        bool isfull(){
+            if(max==rear){
+                 return true;
+            }else{
+                return false;
+            }  
+        }
 };
-//roundlist
-//roundlist
+
 class Roundlist{
     private:
         int i; //i = index
-        string Departure,terminal,TravelTime,TimeOut[5],timeLine;                                             //array string TimeOut,TimeTo        
+        string Departure,terminal,TravelTime,timeLine;  //array string TimeOut,TimeTo        
     public:
         Roundlist *next;
+        TimeQueue timeout;
         Roundlist(string departure,string ter,string travel,string timeline){
             //set station&time
             Departure = departure;
             terminal = ter;
             TravelTime = travel;
             timeLine = timeline;
+            timeout.enqueue(timeline);
             next = NULL;
         }
         string getDepature(){
@@ -175,31 +247,17 @@ class Roundlist{
         string getTravelTime(){
             return TravelTime;//return string
         }
-        string Timeout(int i){
-            return TimeOut[i];//return string array
-        }
-        /*string Timeto(int i){
-            return TimeTo[i];//return string array
-        }*/
-        void printtime(){
-            for(int i = 0;i<5;i++){
-                cout << " " << TimeOut[i] << endl;
-            }
-        }
 };
+
 class Round{
     private:
          Roundlist *head;
          Roundlist *tail;
-         string Timeline[5];
     public:
         Round(){
             head = NULL;
             tail = NULL;
             loaddata_Airport();
-            for(int i =0;i<5;i++){
-                Timeline[i] = ""; 
-            }
            //Addtimeline();
         }
         void addround(string departure,string terminal,string time,string timeout){
@@ -231,28 +289,22 @@ class Round{
                cout << "Cannot Open File" << endl;
                  }
         }//loaddata
-        void setuptime(string line){
-             int i=0;
-             Timeline[i++] = line;    
-        }
-        void Addtimeline(){
-        	string line;
-             for(int i =0 ;i<5;i++){
-                    line = Timeline[i].substr(0,Timeline[i].find(','));             	 
-			        Timeline[i].erase(0,Timeline[i].find(',')+1);     
-			        
-			 }           
-        }
         void printlist(){
             Roundlist *cur=head;
              while(cur != NULL){
                  cout << cur->getDepature() << " " << cur->getTerminal() << cur->getTravelTime() << endl;
                  cout << endl;
+                 cur->timeout.show();
                  cur = cur->next;
              }
 
         }
 };
+
+class Ticket{
+
+};
+
 void printmenu(){
     //แสดงหน้าเมนูหลัก
     ifstream  file("menu.txt",ios::in);
@@ -264,7 +316,8 @@ void printmenu(){
     }else{
         cout << "Error Show Menu!!" << endl;
     }
-}
+}//print menu
+
 int main(){
     CustomerControler *customerControl = new CustomerControler(); //obj customerconntroler
     //main Program
@@ -292,8 +345,18 @@ int main(){
            cout << "\t\t\t\t\t+========================+" << endl;
            cout << "\t\t\t\t\t+ 1.Login                +" << endl;
            cout << "\t\t\t\t\t+ 2.Back                 +" << endl;
-           cout << "\t\t\t\t\t+========================+" << endl;  
-           cout << "Please Enter Choice : "; cin >> menu_login;
+           cout << "\t\t\t\t\t+========================+" << endl;
+           try
+           {
+                cout << "Please Enter Choice : "; cin >> menu_login;
+                if(!cin)
+                  throw menu_login;
+           }
+           catch(int menu)
+           {
+                cin.clear(); 
+                cin.ignore(100, '\n'); 
+           }
              if(menu_login==1){
                  cout << "\t\t\t\t\tPlease Enter Username : "; cin >> username; //ใส่ username
                  cout << "\t\t\t\t\tPlease Enter Password : ";  star = _getch();
@@ -312,10 +375,20 @@ int main(){
                          cout << "\t\t\t\t\t 2. Advance Booking" << endl;
                          cout << "\t\t\t\t\t 3. Exchange points" << endl;
                          cout << "\t\t\t\t\t 4. Back to loggin " << endl;
-                         cout << "Please Enter Choice : "; cin >> member_menu;//member
-                          if(member_menu == 1){
-                             round->printlist();       
-                          } 
+                         try
+                         {
+                             cout << "Please Enter Choice : "; cin >> member_menu;//member
+                             if(!cin)
+                               throw member_menu;
+                             if(member_menu == 1){
+                                 round->printlist();       
+                               } //if  
+                         }//try
+                         catch(int menu)
+                         {
+                            cin.clear(); 
+                            cin.ignore(100, '\n'); 
+                         }
                        }while(member_menu!=4);
                  }
              }//if
