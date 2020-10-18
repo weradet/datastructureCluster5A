@@ -155,20 +155,15 @@ class Ticket{
 class Roundlist{
     private:
         int i; //i = index
-        string Departure,terminal,TravelTime,TimeOut[5],TimeTo[5];
-                                                //array string TimeOut,TimeTo        
+        string Departure,terminal,TravelTime,TimeOut[5],timeLine;                                             //array string TimeOut,TimeTo        
     public:
         Roundlist *next;
-        void SetRoundlist(string timeout,string timeto){ 
-            //set array string
-                TimeOut[i++] = timeout;
-                TimeTo[i++] = timeto;           
-        }
-        Roundlist(string departure,string ter,string travel){
+        Roundlist(string departure,string ter,string travel,string timeline){
             //set station&time
             Departure = departure;
             terminal = ter;
             TravelTime = travel;
+            timeLine = timeline;
             next = NULL;
         }
         string getDepature(){
@@ -183,18 +178,81 @@ class Roundlist{
         string Timeout(int i){
             return TimeOut[i];//return string array
         }
-        string Timeto(int i){
+        /*string Timeto(int i){
             return TimeTo[i];//return string array
+        }*/
+        void printtime(){
+            for(int i = 0;i<5;i++){
+                cout << " " << TimeOut[i] << endl;
+            }
         }
 };
-/*class Round{
+class Round{
     private:
-
+         Roundlist *head;
+         Roundlist *tail;
+         string Timeline[5];
     public:
-        void loaddata(){
-                
+        Round(){
+            head = NULL;
+            tail = NULL;
+            loaddata_Airport();
+            for(int i =0;i<5;i++){
+                Timeline[i] = ""; 
+            }
+           //Addtimeline();
         }
-};*/
+        void addround(string departure,string terminal,string time,string timeout){
+             Roundlist *newnode = new Roundlist(departure,terminal,time,timeout);
+             if(head==NULL){
+                 head = newnode;
+                 tail = newnode;
+             }else{
+                 tail->next = newnode;
+                 tail = newnode;
+             }
+        }
+        void loaddata_Airport(){
+             //Roundlist *newnode;
+            ifstream  myfile("flights.txt",ios::in);
+            string line,departure,terminal,time,timeout;
+             if(myfile.is_open()){
+                while(getline(myfile,line)){
+                      departure = line.substr(0,line.find(',')); 
+                      line.erase(0,line.find(',')+1);
+                      terminal = line.substr(0,line.find(',')); 
+                      line.erase(0,line.find(',')+1);
+                      time = line.substr(0,line.find(',')); 
+                      line.erase(0,line.find(',')+1);
+                      timeout = line.substr(0,string::npos);
+                    addround(departure,terminal,time,timeout);
+                 }  
+            }else{
+               cout << "Cannot Open File" << endl;
+                 }
+        }//loaddata
+        void setuptime(string line){
+             int i=0;
+             Timeline[i++] = line;    
+        }
+        void Addtimeline(){
+        	string line;
+             for(int i =0 ;i<5;i++){
+                    line = Timeline[i].substr(0,Timeline[i].find(','));             	 
+			        Timeline[i].erase(0,Timeline[i].find(',')+1);     
+			        
+			 }           
+        }
+        void printlist(){
+            Roundlist *cur=head;
+             while(cur != NULL){
+                 cout << cur->getDepature() << " " << cur->getTerminal() << cur->getTravelTime() << endl;
+                 cout << endl;
+                 cur = cur->next;
+             }
+
+        }
+};
 void printmenu(){
     //แสดงหน้าเมนูหลัก
     ifstream  file("menu.txt",ios::in);
@@ -211,7 +269,8 @@ int main(){
     CustomerControler *customerControl = new CustomerControler(); //obj customerconntroler
     //main Program
     int main_menu;
-  //customerControl->show();
+    Round *round = new Round();
+    //round->Addtimeline();
   do{
       // customerControl->show();
        //system("cls");
@@ -238,6 +297,7 @@ int main(){
              if(menu_login==1){
                  cout << "\t\t\t\t\tPlease Enter Username : "; cin >> username; //ใส่ username
                  cout << "\t\t\t\t\tPlease Enter Password : ";  star = _getch();
+                 cin.ignore();
                  while(star!=13){
                     user_pass.push_back(star);
                        cout << '*';
@@ -253,6 +313,9 @@ int main(){
                          cout << "\t\t\t\t\t 3. Exchange points" << endl;
                          cout << "\t\t\t\t\t 4. Back to loggin " << endl;
                          cout << "Please Enter Choice : "; cin >> member_menu;//member
+                          if(member_menu == 1){
+                             round->printlist();       
+                          } 
                        }while(member_menu!=4);
                  }
              }//if
