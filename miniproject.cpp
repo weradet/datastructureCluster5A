@@ -3,17 +3,26 @@
 #include<fstream>
 #include<time.h>
 #include<conio.h>
+#include<ctime>
+#include<sstream>
 using namespace std;
+
+class Seat{
+      protected:
+        int seat_normal[6][20];
+        double pice;
+};
 
 class CustomerUser{   
      private: 
       string Username,Password,Name,Lastname,Tel,Idcard;
+      int customer_point;
      public:
       CustomerUser *next;
       CustomerUser(){
           next = NULL;
       }
-      CustomerUser(string user_name,string pass,string name,string lname,string tel,string id_card){
+      CustomerUser(string user_name,string pass,string name,string lname,string tel,string id_card,int point){
        //setup user
           Username = user_name;
           Password = pass;
@@ -21,6 +30,7 @@ class CustomerUser{
           Lastname = lname;
           Tel = tel;
           Idcard = id_card;
+          customer_point = point; 
           next = NULL;
       }
      string getUsername(){
@@ -68,9 +78,9 @@ class CustomerControler{
                    return false;  
         }
         
-        void ResigerUser(string user,string pass,string name,string last,string tel,string id_card){
+        void ResigerUser(string user,string pass,string name,string last,string tel,string id_card,int point){
               //เพิ่มNode
-               CustomerUser *User = new CustomerUser(user,pass,name,last,tel,id_card); // add ไปใน node 
+               CustomerUser *User = new CustomerUser(user,pass,name,last,tel,id_card,point); // add ไปใน node 
                 if(head == NULL){ 
                     head = User;
                     tail = User;
@@ -82,7 +92,7 @@ class CustomerControler{
         }//Register
         void Loaddata(){
             //โหลดข้อมูลจากไฟล์เข้าสู่Linkedlist
-           string line,user_name,pass,name,lastname,tel,id_card;
+           string line,user_name,pass,name,lastname,tel,id_card,point_str;
            ifstream data("data.txt",ios::in);
            if(data.is_open()){
                   while(getline(data,line)){ 
@@ -96,9 +106,16 @@ class CustomerControler{
                                line.erase(0,line.find(',')+1);   
                   tel =      line.substr(0,line.find(','));
                                line.erase(0,line.find(',')+1);   
-                  id_card =  line.substr(0,string::npos);
-                               line.erase(0,string::npos);                                                 
-                  ResigerUser(user_name,pass,name,lastname,tel,id_card);
+                  id_card =  line.substr(0,line.find(','));
+                               line.erase(0,line.find(',')+1);
+                  point_str = line.substr(0,line.find(','));             
+                               line.erase(0,string::npos);   
+
+                 stringstream ss;
+                 int point;
+                 ss << point_str;
+                 ss >> point;                                              
+                  ResigerUser(user_name,pass,name,lastname,tel,id_card,point);
             }//while
           }else{
              cout << "Error File!!" << endl;
@@ -364,13 +381,7 @@ int main(){
            }
              if(menu_login==1){
                  cout << "\t\t\t\t\tPlease Enter Username : "; cin >> username; //ใส่ username
-                 cout << "\t\t\t\t\tPlease Enter Password : ";  star = _getch();
-                 cin.ignore();
-                 while(star!=13){
-                    user_pass.push_back(star);
-                       cout << '*';
-                       star = _getch();
-                 }
+                 cout << "\t\t\t\t\tPlease Enter Password : "; cin >> user_pass;
                  if(customerControl->LogginCustomer(username,user_pass)){
                      int member_menu;
                      do{
@@ -386,7 +397,7 @@ int main(){
                              if(!cin)
                                throw member_menu;
                              if(member_menu == 1){
-                                // round->printlist();       
+                                 round->printlist();       
                                } //if  
                          }//try
                          catch(int menu)
@@ -438,13 +449,19 @@ int main(){
              }//while
 
              if(is_commit == 'y'){
-                 customerControl->ResigerUser(username,user_pass,name,lastname,tel,id_card);  
+                 customerControl->ResigerUser(username,user_pass,name,lastname,tel,id_card,0);  
                  cout << "Save Complete" << endl;
              }
              else if(is_commit == 'n'){
                  cout << "Cannot Save" << endl;
              }
-       }
+       }//if Register
+       else if(main_menu == 3){
+             string menu_filght;
+             do{
+                 
+             }while(menu_filght != "0");
+       }//else if
     }catch(int x){  
          cin.clear(); 
          cin.ignore(100, '\n'); 
