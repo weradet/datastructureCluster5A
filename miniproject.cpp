@@ -501,7 +501,7 @@ int main(){
                      string menu_showfilght;
                       cout << "1. Show Alphabet Assidenting" << endl;
                       cout << "2. Show Round    Assidenting" << endl;
-                     
+                      cout << "Please Choose 1 choice : "; cin >> menu_showfilght;
                  }
              }while(menu_filght != "0");
        }//else if
