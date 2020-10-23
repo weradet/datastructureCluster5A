@@ -11,6 +11,25 @@ class Seat{
       protected:
         int seat_normal[6][20];
         double pice;
+      public:
+        Seat(){
+            for(int i=0;i<6;i++){
+                for(int j=0;j<20;j++){
+                   seat_normal[i][j] = 0;
+                }
+            }
+        }
+        void ShowMoreSeat(){
+            for(int i=0;i<6;i++){
+                for(int j=0;j<20;j++){
+                   //seat_normal[i][j] = 0;
+                   if(seat_normal[i][j]==0){
+                        cout << seat_normal[i][j] << " ";
+                   }
+                }
+                cout << endl;
+            }
+        }  
 };
 
 class CustomerUser{   
@@ -169,6 +188,20 @@ class CustomerControler{
 
 //roundlist
 //roundlist
+class Time{
+    string time;
+    Seat normalseat;
+    Time(string t){
+         time = t;
+    }
+    void settime(string t){
+         time = t;
+    }  
+    void showseatNormal(){
+         normalseat.ShowMoreSeat();
+    }
+    
+};
 class TimeQueue{
     /*
         Queue Time 
@@ -243,7 +276,8 @@ class TimeQueue{
 class Roundlist{
     private:
         int i; //i = index
-        string Departure,terminal,TravelTime,timeLine;  //array string TimeOut,TimeTo        
+        string Departure,terminal,TravelTime,timeLine;  //array string TimeOut,TimeTo     
+        //Seat normalseat;   
     public:
         Roundlist *next;
         TimeQueue timeout;
@@ -459,7 +493,16 @@ int main(){
        else if(main_menu == 3){
              string menu_filght;
              do{
-                 
+                 cout << "1. Show More Flight" << endl;
+                 cout << "2. Booking Flight" << endl;
+                 cout << "0. Back to main menu" << endl;
+                 cout << "Please Choose 1 choice"; cin  >> menu_filght;
+                 if(menu_filght=="1"){
+                     string menu_showfilght;
+                      cout << "1. Show Alphabet Assidenting" << endl;
+                      cout << "2. Show Round    Assidenting" << endl;
+                     
+                 }
              }while(menu_filght != "0");
        }//else if
     }catch(int x){  
