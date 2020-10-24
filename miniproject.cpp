@@ -385,35 +385,36 @@ int main(){
        printmenu();
        cout <<"  \t\t\t\t\t" << ctime(&my_time);
     try{
-       cout <<  "Choose Menu (1-5) : "; cin >> main_menu; //user Input
+       cout <<  "Choose Menu (1-4) : "; cin >> main_menu; //user Input
        if (!cin){
          throw main_menu;
        }//if
        else if(main_menu == 1){
            //user Loggin
-         int menu_login;  
+         int menu_guest;  
          string username,user_pass="";
          char star;
           do{
            cout << endl;   
            cout << "\t\t\t\t\t+========================+" << endl;
-           cout << "\t\t\t\t\t+       Login            +" << endl;
+           cout << "\t\t\t\t\t+       Guest            +" << endl;
            cout << "\t\t\t\t\t+========================+" << endl;
-           cout << "\t\t\t\t\t+ 1.Login                +" << endl;
-           cout << "\t\t\t\t\t+ 2.Back                 +" << endl;
+           cout << "\t\t\t\t\t+ 1.Buy tricket          +" << endl;
+           cout << "\t\t\t\t\t+ 2.Flights              +" << endl;
+           cout << "\t\t\t\t\t+ 3.Back To Main Menu    +" << endl;
            cout << "\t\t\t\t\t+========================+" << endl;
            try
            {
-                cout << "Please Enter Choice : "; cin >> menu_login;
+                cout << "Please Enter Choice : "; cin >> menu_guest;
                 if(!cin)
-                  throw menu_login;
+                  throw menu_guest;
            }
            catch(int menu)
            {
                 cin.clear(); 
                 cin.ignore(100, '\n'); 
            }
-             if(menu_login==1){
+             /*if(menu_login==1){
                  cout << "\t\t\t\t\tPlease Enter Username : "; cin >> username; //ใส่ username
                  cout << "\t\t\t\t\tPlease Enter Password : "; cin >> user_pass;
                  if(customerControl->LogginCustomer(username,user_pass)){
@@ -441,10 +442,48 @@ int main(){
                          }
                        }while(member_menu!=4);
                  }
-             }//if
-          }while(menu_login != 2);
+             }//if*/
+             if(menu_guest == 2){
+                 cout << "COMMING SOON" << endl;
+             }
+          }while(menu_guest != 3);
        }//else if
        else if(main_menu == 2){
+           int member_menu;
+           do{
+           cout << endl;   
+           cout << "\t\t\t\t\t+========================+" << endl;
+           cout << "\t\t\t\t\t+       MEMBER           +" << endl;
+           cout << "\t\t\t\t\t+========================+" << endl;
+           cout << "\t\t\t\t\t+ 1.Buy tricket          +" << endl;
+           cout << "\t\t\t\t\t+ 2.Flights              +" << endl;
+           cout << "\t\t\t\t\t+ 3.Promotion            +" << endl;
+           cout << "\t\t\t\t\t+ 4.Point                +" << endl;
+           cout << "\t\t\t\t\t+ 5.Back To Main Menu    +" << endl;
+           cout << "\t\t\t\t\t+========================+" << endl; 
+           try
+           {
+                cout << "Please Enter Choice : "; cin >> member_menu;
+                if(!cin)
+                  throw member_menu;
+           }
+           catch(int menu)
+           {
+                cin.clear(); 
+                cin.ignore(100, '\n'); 
+           }
+                if(member_menu == 1){
+                    cout << "COMMING SOON" << endl;
+                }else if(member_menu == 2){
+                    cout << "COMMING SOON" << endl;
+                }else if(member_menu == 3){
+                    cout << "COMMING SOON" << endl;
+                }else if(member_menu == 4){
+                    cout << "COMMING SOON" << endl;
+                }
+           }while(member_menu != 5);
+       }
+       else if(main_menu == 3){
           //user register
           string username,user_pass="",name,lastname,tel,id_card; //ประกาศตัวแปร
           char is_commit;
@@ -490,25 +529,10 @@ int main(){
                  cout << "Cannot Save" << endl;
              }
        }//if Register
-       else if(main_menu == 3){
-             string menu_filght;
-             do{
-                 cout << "1. Show More Flight" << endl;
-                 cout << "2. Booking Flight" << endl;
-                 cout << "0. Back to main menu" << endl;
-                 cout << "Please Choose 1 choice"; cin  >> menu_filght;
-                 if(menu_filght=="1"){
-                     string menu_showfilght;
-                      cout << "1. Show Alphabet Assidenting" << endl;
-                      cout << "2. Show Round    Assidenting" << endl;
-                      cout << "Please Choose 1 choice : "; cin >> menu_showfilght;
-                 }
-             }while(menu_filght != "0");
-       }//else if
     }catch(int x){  
          cin.clear(); 
          cin.ignore(100, '\n'); 
     }
-  }while(main_menu!=5);
+  }while(main_menu!=4);
   customerControl->writefile();
 }//main

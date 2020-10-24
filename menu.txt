@@ -26,9 +26,8 @@
                                               |_|  |_||___||_|\_| \___/                          
                                           
                                          ************************************
-                                         *     1. Login                     * 
-                                         *     2. Register                  *
-                                         *     3. Flights Booking           *
-                                         *     4. Advance Booking           *
-                                         *     5. Exit                      *
+                                         *     1. Guest                     * 
+                                         *     2. Member                    *
+                                         *     3. Register                  *
+                                         *     4. Exit                      *
                                          ************************************
