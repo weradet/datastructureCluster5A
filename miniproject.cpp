@@ -31,7 +31,9 @@ class Seat{
             }
         }  
 };
+class Ticket{
 
+};
 class CustomerUser{   
      private: 
       string Username,Password,Name,Lastname,Tel,Idcard;
@@ -354,9 +356,7 @@ class Round{
         }
 };
 
-class Ticket{
 
-};
 
 void printmenu(){
     //แสดงหน้าเมนูหลัก
