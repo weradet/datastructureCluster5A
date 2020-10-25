@@ -372,17 +372,19 @@ class Round{
 
         void printlist(){
             Roundlist *cur=head;
+            cout << "\t\t\t******************************** RoundList ********************************" << endl;
              while(cur != NULL){
                  if(cur->timeout.isempty()){
-                    continue;
+          
                  }else{
-                 cout << cur->getDepature() << " " << cur->getTerminal() << cur->getTravelTime() << endl;
+                 cout << "\t\t\t The airport : " << setw(26) << left << cur->getDepature() << " ----->> "+cur->getTerminal() << endl;
+                 cout << "\t\t\t TimeOut - TimeTo : " ;cur->timeout.show(); 
+                 cout << "\t\t\t Total Time : " << cur->getTravelTime() << endl;
                  cout << endl;
-                 cur->timeout.show();
                  }
                  cur = cur->next;
              }
-
+            cout << "\t\t\t***************************************************************************" << endl;
         }
         void SortAlphabet(){
             Roundlist *cur=head;
