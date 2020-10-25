@@ -190,18 +190,26 @@ class CustomerControler{
 
 //roundlist
 //roundlist
-class Time{
-    string time;
-    Seat normalseat;
-    Time(string t){
+class TimeAir{
+    private:
+      string time;
+      Seat normalseat;
+    public:
+      TimeAir(){
+
+      } 
+      TimeAir(string t){
          time = t;
-    }
-    void settime(string t){
+      }
+      void settime(string t){
          time = t;
-    }  
-    void showseatNormal(){
+      }  
+      void showseatNormal(){
          normalseat.ShowMoreSeat();
-    }
+      }
+      string gettime(){
+          return time; 
+      }
     
 };
 class TimeQueue{
@@ -210,14 +218,15 @@ class TimeQueue{
         รอบเวลาต่างๆในเที่ยวบิน
     */
     private:
-       string *timeout;
+       TimeAir *time;
        int max;
        int count;
        int font;
        int rear;
     public:
        TimeQueue(){
-            timeout = new string[5];
+           // timeout = new string[5];
+            time = new TimeAir[5];
             max = 5;
             count = 0;
             font = 0;
@@ -228,35 +237,44 @@ class TimeQueue{
               นำรอเวลาในเที่ยวบินทุกอันมาตัด
               แล้วนำเข้าใส่อาเรย์ในคิว
             */
-                timeout[rear++] = value.substr(0,value.find(','));
-                value.erase(0,value.find(',')+1);
-                timeout[rear++] = value.substr(0,value.find(','));
-                value.erase(0,value.find(',')+1);
-                timeout[rear++] = value.substr(0,value.find(','));
-                value.erase(0,value.find(',')+1); 
-                timeout[rear++] = value.substr(0,value.find(','));
-                value.erase(0,value.find(',')+1); 
-                timeout[rear++] = value.substr(0,value.find(','));
-                value.erase(0,value.find(',')+1);
+                time[rear++].settime(value.substr(0,value.find(',')));
+                value.erase(0,value.find(',')+1);  // เวลาชุดที่0
+                count++;
+
+                time[rear++].settime(value.substr(0,value.find(',')));
+                value.erase(0,value.find(',')+1); // เวลาชุดที่1
+                count++;
+
+                time[rear++].settime(value.substr(0,value.find(',')));
+                value.erase(0,value.find(',')+1);// เวลาชุดที่2
+                count++;
+
+                time[rear++].settime(value.substr(0,value.find(',')));
+                value.erase(0,value.find(',')+1);// เวลาชุดที่3
+                count++;
+
+                time[rear++].settime(value.substr(0,value.find(',')));
+                value.erase(0,value.find(',')+1);// เวลาชุดที่4
                 count++;
         }
+
           void dequeue(){
-            if(isempty()){
+             if(isempty()){
                 cout << "Empty Queue" << endl; 
-            }else if(count == 1){
-                cout << "arr is Dequeue " << timeout[font++] << endl; 
+             }else if(count == 1){
+                cout << "arr is Dequeue " <<  time[font++].gettime() << endl; 
                 count--;
                 font = 0;
                 rear = 0;
-            }
-            else{
-                cout << "arr is Dequeue " << timeout[font++] << endl; 
+                }
+             else{
+                cout << "arr is Dequeue " << time[font++].gettime() << endl; 
                 count--;
-            }      
+               }      
         }
         void show(){
             for(int i =font;i<rear;i++){
-                 cout << timeout[i] << endl;
+                 cout << time[i].gettime() << endl;
             }
         } 
         bool isempty(){
