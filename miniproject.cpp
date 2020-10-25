@@ -427,7 +427,7 @@ int main(){
                 if(!cin)
                   throw menu_guest;
            }
-           catch(int menu)
+           catch(int menu)///asdasdasd
            {
                 cin.clear(); 
                 cin.ignore(100, '\n'); 
