@@ -260,7 +260,7 @@ class TimeQueue{
 
           void dequeue(){
              if(isempty()){
-                cout << "Empty Queue" << endl; 
+                font = 0;
              }else if(count == 1){
                 //cout << "arr is Dequeue " <<  time[font++].gettime() << endl; 
                 font++;
@@ -299,11 +299,10 @@ class TimeQueue{
 };
 
 class Roundlist{
-    private:
+   public:
         int i; //i = index
         string Departure,terminal,TravelTime,timeLine;  //array string TimeOut,TimeTo     
         //Seat normalseat;   
-    public:
         Roundlist *next;
         TimeQueue timeout;
         Roundlist(string departure,string ter,string travel,string timeline){
@@ -387,22 +386,22 @@ class Round{
                 Roundlist *min = cur;
                Roundlist *nextNode = cur->next;
                 while(nextNode!=NULL){
-                        if(min->getDepature().compare(nextNode->getDepature())<0){
+                        if(min->getDepature().compare(nextNode->getDepature())>0){
                             min = nextNode;
                         }//if
                         nextNode=nextNode->next;
                     }//while 
-                        string Departure = cur->getDepature();
-                        string Ter = cur->getTerminal();
-                        string Traveltime = cur->getTravelTime();
+                        string Departure = cur->Departure;
+                        string Ter = cur->terminal;
+                        string Traveltime = cur->terminal;
                         TimeQueue Timeq = cur->timeout; 
-                        cur->getDepature() =  min->getDepature();
-                        cur->getTerminal() =  min->getTerminal();
-                        cur->getTravelTime()= min->getTravelTime();   
+                        cur->Departure =  min->Departure;
+                        cur->terminal = min->terminal;
+                        cur->TravelTime =  min->TravelTime; 
                         cur->timeout = min->timeout;
-                        min->getDepature() = Departure;
-                        min->getTerminal() = Ter;
-                        min->getTravelTime() = Traveltime;    
+                        min->Departure = Departure;
+                        min->terminal = Ter;
+                        min->TravelTime = Traveltime;    
                         min->timeout = Timeq;    
                         cur = cur->next;          
             } //while
