@@ -5,6 +5,7 @@
 #include<conio.h>
 #include<ctime>
 #include<sstream>
+#include<iomanip>
 using namespace std;
 
 class Seat{
@@ -30,15 +31,6 @@ class Seat{
                 cout << endl;
             }
         }  
-};
-class NormalSeat :public Seat{
-
-};
-class FirstSeat :public Seat{
-
-};
-class BusinessSeat :public Seat{
-
 };
 class Ticket{
 
@@ -381,9 +373,13 @@ class Round{
         void printlist(){
             Roundlist *cur=head;
              while(cur != NULL){
+                 if(cur->timeout.isempty()){
+                    continue;
+                 }else{
                  cout << cur->getDepature() << " " << cur->getTerminal() << cur->getTravelTime() << endl;
                  cout << endl;
                  cur->timeout.show();
+                 }
                  cur = cur->next;
              }
 
@@ -402,12 +398,14 @@ class Round{
                     }//while 
                         string Departure = cur->Departure;
                         string Ter = cur->terminal;
-                        string Traveltime = cur->terminal;
+                        string Traveltime = cur->TravelTime;
                         TimeQueue Timeq = cur->timeout; 
+
                         cur->Departure =  min->Departure;
                         cur->terminal = min->terminal;
                         cur->TravelTime =  min->TravelTime; 
                         cur->timeout = min->timeout;
+
                         min->Departure = Departure;
                         min->terminal = Ter;
                         min->TravelTime = Traveltime;    
