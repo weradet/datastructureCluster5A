@@ -277,7 +277,7 @@ class TimeQueue{
         }
         void show(){
             for(int i =font;i<rear;i++){
-                 cout << time[i].gettime() << endl;
+                 cout << "\t\t\t\t\t\t" <<time[i].gettime() << endl;
             }
         } 
         bool isempty(){
@@ -377,9 +377,14 @@ class Round{
                  if(cur->timeout.isempty()){
           
                  }else{
+                 cout << endl;
+                 cout << endl;
                  cout << "\t\t\t The airport : " << setw(26) << left << cur->getDepature() << " ----->> "+cur->getTerminal() << endl;
-                 cout << "\t\t\t TimeOut - TimeTo : " ;cur->timeout.show(); 
+                 cout << "\t\t\t TimeOut - TimeTo : " ;
+                 cout << endl;
+                 cur->timeout.show(); 
                  cout << "\t\t\t Total Time : " << cur->getTravelTime() << endl;
+                 cout << endl;
                  cout << endl;
                  }
                  cur = cur->next;
