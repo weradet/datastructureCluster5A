@@ -262,13 +262,15 @@ class TimeQueue{
              if(isempty()){
                 cout << "Empty Queue" << endl; 
              }else if(count == 1){
-                cout << "arr is Dequeue " <<  time[font++].gettime() << endl; 
+                //cout << "arr is Dequeue " <<  time[font++].gettime() << endl; 
+                font++;
                 count--;
                 font = 0;
                 rear = 0;
                 }
              else{
-                cout << "arr is Dequeue " << time[font++].gettime() << endl; 
+                //cout << "arr is Dequeue " << time[font++].gettime() << endl;
+                font++; 
                 count--;
                }      
         }
@@ -290,6 +292,9 @@ class TimeQueue{
             }else{
                 return false;
             }  
+        }
+        TimeAir gettimeout(int index){
+            return time[index];
         }
 };
 
@@ -332,6 +337,9 @@ class Round{
             loaddata_Airport();
            //Addtimeline();
         }
+        Roundlist* gethead(){
+            return head;
+        }
         void addround(string departure,string terminal,string time,string timeout){
              Roundlist *newnode = new Roundlist(departure,terminal,time,timeout);
              if(head==NULL){
@@ -372,6 +380,29 @@ class Round{
              }
 
         }
+        void CheckTimeOut(){
+                time_t now = time(0); 
+                tm *ltm = localtime(&now);
+                    int Hour = ltm->tm_hour;
+                    int Min = ltm->tm_min;
+                    Roundlist *cur = head;
+                    while(cur!=NULL){
+                            for(int i = 0 ;i<5;i++){
+                                TimeAir pre =  cur->timeout.gettimeout(i);
+                                stringstream ss;
+                                int hour,min;
+                               // cout << pre.gettime() << endl;
+                                ss <<  pre.gettime().substr(0,2);
+                                ss >> hour;
+                                //cout << hour << endl;
+                               // cout << Hour << endl;
+                                if(Hour>hour){
+                                    cur->timeout.dequeue();
+                                }
+                            }
+                        cur = cur->next;
+                    }
+}
 };
 
 
@@ -388,7 +419,6 @@ void printmenu(){
         cout << "Error Show Menu!!" << endl;
     }
 }//print menu
-
 int main(){
     CustomerControler *customerControl = new CustomerControler(); //obj customerconntroler
     //main Program
@@ -397,7 +427,10 @@ int main(){
     time_t my_time = time(NULL); 
     // ctime() used to give the present time 
     //round->Addtimeline();
+   // CheckTimeOut();
+      //round->CheckTimeOut();
   do{
+       round->CheckTimeOut();
       // customerControl->show();
        //system("cls");
        printmenu();
@@ -432,74 +465,57 @@ int main(){
                 cin.clear(); 
                 cin.ignore(100, '\n'); 
            }
-             /*if(menu_login==1){
-                 cout << "\t\t\t\t\tPlease Enter Username : "; cin >> username; //ใส่ username
-                 cout << "\t\t\t\t\tPlease Enter Password : "; cin >> user_pass;
-                 if(customerControl->LogginCustomer(username,user_pass)){
-                     int member_menu;
-                     do{
-                         //menu Flights Booking
-                         cout << endl;
-                         cout << "\t\t\t\t\t 1. Flights Booking" << endl;
-                         cout << "\t\t\t\t\t 2. Advance Booking" << endl;
-                         cout << "\t\t\t\t\t 3. Exchange points" << endl;
-                         cout << "\t\t\t\t\t 4. Back to loggin " << endl;
-                         try
-                         {
-                             cout << "Please Enter Choice : "; cin >> member_menu;//member
-                             if(!cin)
-                               throw member_menu;
-                             if(member_menu == 1){
-                                 round->printlist();       
-                               } //if  
-                         }//try
-                         catch(int menu)
-                         {
-                            cin.clear(); 
-                            cin.ignore(100, '\n'); 
-                         }
-                       }while(member_menu!=4);
-                 }
-             }//if*/
+            if(menu_guest == 1){
+                
+            }
              if(menu_guest == 2){
-                 cout << "COMMING SOON" << endl;
+                 round->printlist();
              }
           }while(menu_guest != 3);
        }//else if
        else if(main_menu == 2){
            int member_menu;
+           int member_loggin;
+           string username,user_pass="";
            do{
-           cout << endl;   
-           cout << "\t\t\t\t\t+========================+" << endl;
-           cout << "\t\t\t\t\t+       MEMBER           +" << endl;
-           cout << "\t\t\t\t\t+========================+" << endl;
-           cout << "\t\t\t\t\t+ 1.Buy tricket          +" << endl;
-           cout << "\t\t\t\t\t+ 2.Flights              +" << endl;
-           cout << "\t\t\t\t\t+ 3.Promotion            +" << endl;
-           cout << "\t\t\t\t\t+ 4.Point                +" << endl;
-           cout << "\t\t\t\t\t+ 5.Back To Main Menu    +" << endl;
-           cout << "\t\t\t\t\t+========================+" << endl; 
-           try
-           {
-                cout << "Please Enter Choice : "; cin >> member_menu;
-                if(!cin)
-                  throw member_menu;
-           }
-           catch(int menu)
-           {
-                cin.clear(); 
-                cin.ignore(100, '\n'); 
-           }
-                if(member_menu == 1){
-                    cout << "COMMING SOON" << endl;
-                }else if(member_menu == 2){
-                    cout << "COMMING SOON" << endl;
-                }else if(member_menu == 3){
-                    cout << "COMMING SOON" << endl;
-                }else if(member_menu == 4){
-                    cout << "COMMING SOON" << endl;
-                }
-           }while(member_menu != 5);
+            cout << "\t\t\t\t\tPlease Enter Username : "; cin >> username; //ใส่ username
+            cout << "\t\t\t\t\tPlease Enter Password : "; cin >> user_pass;
+             if(customerControl->LogginCustomer(username,user_pass)){
+                    do{
+                        cout << endl;   
+                        cout << "\t\t\t\t\t+========================+" << endl;
+                        cout << "\t\t\t\t\t+       MEMBER           +" << endl;
+                        cout << "\t\t\t\t\t+========================+" << endl;
+                        cout << "\t\t\t\t\t+ 1.Buy tricket          +" << endl;
+                        cout << "\t\t\t\t\t+ 2.Flights              +" << endl;
+                        cout << "\t\t\t\t\t+ 3.Promotion            +" << endl;
+                        cout << "\t\t\t\t\t+ 4.Point                +" << endl;
+                        cout << "\t\t\t\t\t+ 5.Back To Main Menu    +" << endl;
+                        cout << "\t\t\t\t\t+========================+" << endl; 
+                        try{
+                          cout << "Please Enter Choice : "; cin >> member_menu;
+                          if(!cin)
+                          throw member_menu;
+                          }
+                        catch(int menu)
+                         {
+                        cin.clear(); 
+                        cin.ignore(100, '\n'); 
+                          }
+                        if(member_menu == 1){
+                            cout << "COMMING SOON" << endl;
+                        }else if(member_menu == 2){
+                            cout << "COMMING SOON" << endl;
+                        }else if(member_menu == 3){
+                            cout << "COMMING SOON" << endl;
+                        }else if(member_menu == 4){
+                            cout << "COMMING SOON" << endl;
+                        } 
+                    }while(member_menu != 5);
+               }else{
+                   cout << "Invalid Username and Password" << endl;  
+               }
+         }while(member_loggin != 2);
        }
        else if(main_menu == 3){
           //user register
