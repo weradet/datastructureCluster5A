@@ -380,6 +380,36 @@ class Round{
              }
 
         }
+        void SortAlphabet(){
+            Roundlist *cur=head;
+            Roundlist *temp;
+            while(cur!=NULL){
+                Roundlist *min = cur;
+               Roundlist *nextNode = cur->next;
+                while(nextNode!=NULL){
+                        if(min->getDepature().compare(nextNode->getDepature())<0){
+                            min = nextNode;
+                        }//if
+                        nextNode=nextNode->next;
+                    }//while 
+                        string Departure = cur->getDepature();
+                        string Ter = cur->getTerminal();
+                        string Traveltime = cur->getTravelTime();
+                        TimeQueue Timeq = cur->timeout; 
+                        cur->getDepature() =  min->getDepature();
+                        cur->getTerminal() =  min->getTerminal();
+                        cur->getTravelTime()= min->getTravelTime();   
+                        cur->timeout = min->timeout;
+                        min->getDepature() = Departure;
+                        min->getTerminal() = Ter;
+                        min->getTravelTime() = Traveltime;    
+                        min->timeout = Timeq;    
+                        cur = cur->next;          
+            } //while
+        //////////////////////////////////////////////////
+            printlist();
+        }//Sort
+
         void CheckTimeOut(){
                 time_t now = time(0); 
                 tm *ltm = localtime(&now);
@@ -391,11 +421,8 @@ class Round{
                                 TimeAir pre =  cur->timeout.gettimeout(i);
                                 stringstream ss;
                                 int hour,min;
-                               // cout << pre.gettime() << endl;
                                 ss <<  pre.gettime().substr(0,2);
                                 ss >> hour;
-                                //cout << hour << endl;
-                               // cout << Hour << endl;
                                 if(Hour>hour){
                                     cur->timeout.dequeue();
                                 }
@@ -404,9 +431,6 @@ class Round{
                     }
 }
 };
-
-
-
 void printmenu(){
     //แสดงหน้าเมนูหลัก
     ifstream  file("menu.txt",ios::in);
@@ -425,9 +449,6 @@ int main(){
     int main_menu;
     Round *round = new Round();
     time_t my_time = time(NULL); 
-    // ctime() used to give the present time 
-    //round->Addtimeline();
-   // CheckTimeOut();
       //round->CheckTimeOut();
   do{
        round->CheckTimeOut();
@@ -469,7 +490,28 @@ int main(){
                 
             }
              if(menu_guest == 2){
-                 round->printlist();
+                 int menu_view;
+                  do{
+                     cout << "1. Show ALL Filghts " << endl;
+                     cout << "2. Filghts Booking " << endl;  
+                     cout << "3. Back to main Menu " << endl;
+                     cin >> menu_view;
+                        if(menu_view==1){
+                             int menu_sort;
+                            do{
+                               cout << "1.Sort By Cycle Time" << endl;
+                               cout << "2.Sort By AlphaBet" << endl; 
+                               cout << "3.Back to main menu" << endl;
+                               cin >> menu_sort;
+                                 if(menu_sort == 1){
+                                     
+                                 }else if(menu_sort==2){
+                                     round->SortAlphabet();
+                                 }
+                                  
+                            }while(menu_sort !=3);
+                        }  
+                  }while(menu_view!=3);
              }
           }while(menu_guest != 3);
        }//else if
