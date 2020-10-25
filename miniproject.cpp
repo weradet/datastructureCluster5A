@@ -31,6 +31,15 @@ class Seat{
             }
         }  
 };
+class NormalSeat :public Seat{
+
+};
+class FirstSeat :public Seat{
+
+};
+class BusinessSeat :public Seat{
+
+};
 class Ticket{
 
 };
