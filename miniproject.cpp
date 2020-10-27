@@ -369,7 +369,16 @@ class Round{
                cout << "Cannot Open File" << endl;
                  }
         }//loaddata
-
+        void ShowlistDeparture(){
+            Roundlist *temp = head;
+            cout << "*******Station List*******" << endl;
+            while(temp != NULL){
+                if(temp->Departure != temp->next->Departure){
+                    cout << temp->Departure << endl;
+                }      
+            temp = temp->next;
+            }
+        }
         void printlist(){
             Roundlist *cur=head;
             cout << "\t\t\t******************************** RoundList ********************************" << endl;
@@ -420,7 +429,6 @@ class Round{
                         cur = cur->next;          
             } //while
         //////////////////////////////////////////////////
-            printlist();
         }//Sort
 
         void CheckTimeOut(){
@@ -500,7 +508,27 @@ int main(){
                 cin.ignore(100, '\n'); 
            }
             if(menu_guest == 1){
-                
+                int menu_buy;
+                cout << endl;   
+                cout << "\t\t\t\t\t+========================+" << endl;
+                cout << "\t\t\t\t\t+       Guest            +" << endl;
+                cout << "\t\t\t\t\t+========================+" << endl;
+                cout << "\t\t\t\t\t+ 1.One Way              +" << endl;
+                cout << "\t\t\t\t\t+ 2.Round Trip           +" << endl;
+                cout << "\t\t\t\t\t+ 3.Advance              +" << endl;
+                cout << "\t\t\t\t\t+ 4.Back To Main Menu    +" << endl;
+                cout << "\t\t\t\t\t+========================+" << endl;
+                cin >> menu_buy;
+                    if(menu_buy == 1){
+                        string Departure;
+                        round->SortAlphabet();
+                        round->ShowlistDeparture();
+                        cout << "Choose Departue Staion : ";
+                    }else if(menu_buy == 2){
+
+                    }else if(menu_buy == 3){
+
+                    }
             }
              if(menu_guest == 2){
                  int menu_view;
@@ -520,6 +548,7 @@ int main(){
                                      
                                  }else if(menu_sort==2){
                                      round->SortAlphabet();
+                                     round->printlist();
                                  }
                                   
                             }while(menu_sort !=3);
