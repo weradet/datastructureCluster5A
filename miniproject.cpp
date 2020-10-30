@@ -529,7 +529,26 @@ class Round{
              } 
              return NULL;
         }
-
+        bool CheckDeparture(string departure){
+            Roundlist *temp = head;
+            while(temp != NULL){
+                if(temp->Departure.find(departure) != string::npos){
+                    return true;
+                }
+                temp = temp->next;
+            }
+            return false;
+        }
+        bool CheckTerminal(string terminal){
+            Roundlist *temp = head;
+            while(temp != NULL){
+                if(temp->terminal.find(terminal) != string::npos){
+                    return true;
+                }
+                temp = temp->next;
+            }
+            return false;
+        }
 };
 void printmenu(){
     //แสดงหน้าเมนูหลัก
@@ -602,23 +621,23 @@ int main(){
                         string Departure,Terminal;
                         round->SortAlphabetAscending();
                         round->ShowlistDeparture();
-                        cout << "Choose Departue Staion (Abbreviation 3 Characture) : ";
                         do{
+                        cout << "Choose Departue Staion (Abbreviation 3 Characture) : ";                       
                             cin >> Departure;
-                            if(Departure.length() > 3 || Departure.length() < 3){
+                            if(Departure.length() > 3 || Departure.length() < 3 || round->CheckDeparture(Departure) == false){
                                  cout << "Abbreviation is 3 Characture ! " << endl;
                             }
-                        }while(Departure.length()>3 || Departure.length()<3);
+                        }while(Departure.length()>3 || Departure.length()<3 || round->CheckDeparture(Departure) == false);
 
                         round->SortAlphabetAscending();
                         round->ShowlistTerminal(Departure);
+                        do{
                         cout << "Choose Terminal Staion (Abbreviation 3 Characture) : ";
-                         do{
                             cin >> Terminal;
-                            if(Terminal.length() > 3 || Terminal.length() < 3){
+                            if(Terminal.length() > 3 || Terminal.length() < 3 || round->CheckTerminal(Terminal) == false){
                                  cout << "Abbreviation is 3 Characture ! " << endl;
                             }
-                        }while(Terminal.length()>3 || Terminal.length()<3);
+                        }while(Terminal.length()>3 || Terminal.length()<3 || round->CheckTerminal(Terminal) == false);
                             Roundlist *Buy = new Roundlist;
                             string time;
                             Buy = round->BuyTicket(Departure,Terminal);
