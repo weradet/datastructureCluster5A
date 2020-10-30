@@ -38,7 +38,7 @@ class Ticket{
 class CustomerUser{   
      private: 
       string Username,Password,Name,Lastname,Tel,Idcard;
-      int customer_point;
+      int customer_point; 
      public:
       CustomerUser *next;
       CustomerUser(){
@@ -478,9 +478,9 @@ class Round{
               while(cur != NULL){
                  // cout << cur->Departure.find(departure) << endl;
                  if(cur->Departure.find(departure) != string::npos && cur->terminal.find(Terminal) != string::npos){
-                    cout << "Round : " << cur->Departure << " " << cur->terminal << endl;
+                    cout << "Round : " << cur->Departure << "->" << cur->terminal << endl;
                     cur->timeout.show();
-                    break;
+                     return;
                  } 
                 cur = cur->next;
               }
@@ -583,12 +583,24 @@ int main(){
                         string Departure,Terminal;
                         round->SortAlphabetAscending();
                         round->ShowlistDeparture();
-                        cout << "Choose Departue Staion : ";
-                        cin >> Departure;
+                        cout << "Choose Departue Staion (Abbreviation 3 Characture) : ";
+                        do{
+                            cin >> Departure;
+                            if(Departure.length() > 3 || Departure.length() < 3){
+                                 cout << "Abbreviation is 3 Characture ! " << endl;
+                            }
+                        }while(Departure.length()>3 || Departure.length()<3);
+
                         round->SortAlphabetAscending();
                         round->ShowlistTerminal(Departure);
-                        cout << "Choose Terminal Staion : ";
-                        cin >> Terminal;
+                        cout << "Choose Terminal Staion (Abbreviation 3 Characture) : ";
+                         do{
+                            cin >> Terminal;
+                            if(Terminal.length() > 3 || Terminal.length() < 3){
+                                 cout << "Abbreviation is 3 Characture ! " << endl;
+                            }
+                        }while(Terminal.length()>3 || Terminal.length()<3);
+                        
                     }else if(menu_buy == 2){
 
                     }else if(menu_buy == 3){
@@ -611,17 +623,19 @@ int main(){
                                cin >> menu_sort;
                                  if(menu_sort == 1){
                                      round->SortAlphabeDescending();
+                                     round->printlist();
                                  }else if(menu_sort==2){
                                      round->SortAlphabetAscending();
+                                     round->printlist();
                                  }                               
                             }while(menu_sort !=3);    
                         }  
                         else if(menu_view==2){
                             string departure,desination;
                                                                 cin.ignore();
-                            cout << "Please Input Deparure : "; getline(cin,departure);
+                            cout << "Please Input Departure : "; getline(cin,departure);
                                                                // cin.ignore();
-                            cout << "Please Input Desination : ";getline(cin,desination);
+                            cout << "Please Input Termonal : ";getline(cin,desination);
                             round->Searchround(departure,desination);
                         }
                   }while(menu_view!=3);
