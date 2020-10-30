@@ -10,28 +10,49 @@ using namespace std;
 
 class Seat{
       protected:
-        int seat_normal[6][20];
+        int seat_normal[6][10];
         double pice;
+        int yourcol;
+	    int yourrol;
       public:
         Seat(){
             for(int i=0;i<6;i++){
-                for(int j=0;j<20;j++){
+                for(int j=0;j<10;j++){
                    seat_normal[i][j] = 0;
                 }
             }
         }
         void ShowMoreSeat(){
             for(int i=0;i<6;i++){
-                for(int j=0;j<20;j++){
+                for(int j=0;j<10;j++){
                    //seat_normal[i][j] = 0;
-                        cout << "SEAT :"  << i << j << " " <<seat_normal[i][j] << " ";
+                   if(seat_normal[i][j] == 0){
+                       cout << "SEAT"  << i << j << ":" << "O" << " ";
+                   }else{
+                       cout << "SEAT"  << i << j << ":" << "i" << " ";
+                   }
                 }
                 cout << endl;
             }
         }  
-};
-class Ticket{
-
+    void setseat(int s) { 
+		int col = s / 10; // mod i
+		int rol = s % 10; // mod j
+		if (col > 10 || rol > 10) {
+			cout << "Cannot reserve (there are not the seat)" << endl;
+		}
+		else {
+			if (seat_normal[col][rol] == 0) {
+				seat_normal[col][rol] = 1;
+				yourcol = col;
+				yourrol = rol;
+				cout << "Reserve completed\n" << endl; // set array = 1
+				}
+			else {
+				cout << "Cannot reserve\n"; // not 
+			}
+		}
+    }
 };
 class CustomerUser{   
      private: 
@@ -190,10 +211,9 @@ class CustomerControler{
 //roundlist
 //roundlist
 class TimeAir{
-    private:
+    public:
       string time;
       Seat normalseat;
-    public:
       TimeAir(){
 
       } 
@@ -311,12 +331,14 @@ class Roundlist{
         //Seat normalseat;   
         Roundlist *next;
         TimeQueue timeout;
-        Roundlist(string departure,string ter,string travel,string timeline){
+        double Pice;
+        Roundlist(string departure,string ter,string travel,string timeline,double pice){
             //set station&time
             Departure = departure;
             terminal = ter;
             TravelTime = travel;
             timeLine = timeline;
+            Pice = pice;
             timeout.enqueue(timeline);
             next = NULL;
         }
@@ -348,8 +370,8 @@ class Round{
         Roundlist* gethead(){
             return head;
         }
-        void addround(string departure,string terminal,string time,string timeout){
-             Roundlist *newnode = new Roundlist(departure,terminal,time,timeout);
+        void addround(string departure,string terminal,string time,string timeout,double pice){
+             Roundlist *newnode = new Roundlist(departure,terminal,time,timeout,pice);
              if(head==NULL){
                  head = newnode;
                  tail = newnode;
@@ -361,7 +383,8 @@ class Round{
         void loaddata_Airport(){
              //Roundlist *newnode;
             ifstream  myfile("flights.txt",ios::in);
-            string line,departure,terminal,time,timeout;
+            string line,departure,terminal,time,timeout,pice_str;
+            double pice;
              if(myfile.is_open()){
                 while(getline(myfile,line)){
                       departure = line.substr(0,line.find(',')); 
@@ -370,8 +393,13 @@ class Round{
                       line.erase(0,line.find(',')+1);
                       time = line.substr(0,line.find(',')); 
                       line.erase(0,line.find(',')+1);
+                      pice_str =  line.substr(0,line.find(','));  
+                      line.erase(0,line.find(',')+1); 
+                      stringstream ss;
+                      ss << pice_str;
+                      ss >> pice;
                       timeout = line.substr(0,string::npos);
-                    addround(departure,terminal,time,timeout);
+                    addround(departure,terminal,time,timeout,pice);
                  }  
             }else{
                cout << "Cannot Open File" << endl;
@@ -459,7 +487,26 @@ class Round{
             } //while
         //////////////////////////////////////////////////
         }//Sort
-
+        bool CheckDeparture(string departure){
+            Roundlist *temp = head;
+            while(temp != NULL){
+                if(temp->Departure.find(departure) != string::npos){
+                    return true;
+                }
+                temp = temp->next;
+            }
+            return false;
+        }
+        bool CheckTerminal(string terminal){
+            Roundlist *temp = head;
+            while(temp != NULL){
+                if(temp->terminal.find(terminal) != string::npos){
+                    return true;
+                }
+                temp = temp->next;
+            }
+            return false;
+        }
         void CheckTimeOut(){
                 time_t now = time(0); 
                 tm *ltm = localtime(&now);
@@ -488,6 +535,8 @@ class Round{
                  if(cur->Departure.find(departure) != string::npos && cur->terminal.find(Terminal) != string::npos){
                     cout << "Round : " << cur->Departure << "->" << cur->terminal << endl;
                     cur->timeout.show();
+                    cout << endl;
+                    cout << cur->Pice << endl;
                      return;
                  } 
                 cur = cur->next;
@@ -529,26 +578,17 @@ class Round{
              } 
              return NULL;
         }
-        bool CheckDeparture(string departure){
-            Roundlist *temp = head;
-            while(temp != NULL){
-                if(temp->Departure.find(departure) != string::npos){
-                    return true;
-                }
-                temp = temp->next;
-            }
-            return false;
-        }
-        bool CheckTerminal(string terminal){
-            Roundlist *temp = head;
-            while(temp != NULL){
-                if(temp->terminal.find(terminal) != string::npos){
-                    return true;
-                }
-                temp = temp->next;
-            }
-            return false;
-        }
+
+};
+
+class Ticket{
+    public:
+    string Departure,Terminal;
+    int seatNo;
+    double pice;
+    void printTicket(){///
+
+    }  
 };
 void printmenu(){
     //แสดงหน้าเมนูหลัก
@@ -562,6 +602,7 @@ void printmenu(){
         cout << "Error Show Menu!!" << endl;
     }
 }//print menu
+
 int main(){
     CustomerControler *customerControl = new CustomerControler(); //obj customerconntroler
     //main Program
@@ -622,32 +663,42 @@ int main(){
                         round->SortAlphabetAscending();
                         round->ShowlistDeparture();
                         do{
-                        cout << "Choose Departue Staion (Abbreviation 3 Characture) : ";                       
+                        cout << "Choose Departue Staion (Abbreviation 3 Characture) : ";                      
                             cin >> Departure;
                             if(Departure.length() > 3 || Departure.length() < 3 || round->CheckDeparture(Departure) == false){
                                  cout << "Abbreviation is 3 Characture ! " << endl;
                             }
                         }while(Departure.length()>3 || Departure.length()<3 || round->CheckDeparture(Departure) == false);
-
                         round->SortAlphabetAscending();
                         round->ShowlistTerminal(Departure);
                         do{
-                        cout << "Choose Terminal Staion (Abbreviation 3 Characture) : ";
+                        cout << "Choose Terminal Staion (Abbreviation 3 Characture) : ";     
                             cin >> Terminal;
                             if(Terminal.length() > 3 || Terminal.length() < 3 || round->CheckTerminal(Terminal) == false){
                                  cout << "Abbreviation is 3 Characture ! " << endl;
                             }
                         }while(Terminal.length()>3 || Terminal.length()<3 || round->CheckTerminal(Terminal) == false);
+                        
                             Roundlist *Buy = new Roundlist;
                             string time;
                             Buy = round->BuyTicket(Departure,Terminal);
+                            if(Buy != NULL){
                             Buy->timeout.show();
                             cout << "Choose the Time : "; cin >> time;
                             if(Buy->timeout.checkTime(time) != -1){
-                                cout<< "test : " << Buy->timeout.checkTime(time) << endl;
+                                int seat;
+                               // cout<< "test : " << Buy->timeout.checkTime(time) << endl;
+                                Buy->timeout.time[Buy->timeout.checkTime(time)].showseatNormal();
+                                cout << "Input Seat Ex. (01) :"; cin >> seat;
+
+                                //linklist Total Round -> Queue Time -> time [ index ] -> Seat Normal -> Set Seat 
+                                Buy->timeout.time[Buy->timeout.checkTime(time)].normalseat.setseat(seat);
                                 Buy->timeout.time[Buy->timeout.checkTime(time)].showseatNormal();
                             }else{
-
+                                 cout << "NOT TIME" << endl;
+                            }
+                            }else{
+                                cout << "Error" << endl;
                             }
 
                     }else if(menu_buy == 2){
