@@ -315,6 +315,9 @@ class Roundlist{
             timeout.enqueue(timeline);
             next = NULL;
         }
+        Roundlist(){
+            next = NULL;
+        }
         string getDepature(){
             return Departure;//return string
         }
@@ -501,16 +504,17 @@ class Round{
             }
             
         }
-        void ShowlistTerminal(string departure){
+         void ShowlistTerminal(string departure){
             Roundlist *temp = head;
             cout << "*******Terminal Station List*******" << endl;
             while(temp != NULL){
                 if(temp->Departure.find(departure) != string::npos){         
-                        cout << temp->Departure  << " -> " <<  temp->terminal << endl;
+                          cout << temp->Departure  << " -> " <<  temp->terminal << endl;
                 }                     
             temp = temp->next;
             }
         }
+
 };
 void printmenu(){
     //แสดงหน้าเมนูหลัก
@@ -592,7 +596,7 @@ int main(){
                         }while(Departure.length()>3 || Departure.length()<3);
 
                         round->SortAlphabetAscending();
-                        round->ShowlistTerminal(Departure);
+                        //round->ShowlistTerminal(Departure);
                         cout << "Choose Terminal Staion (Abbreviation 3 Characture) : ";
                          do{
                             cin >> Terminal;
@@ -600,7 +604,8 @@ int main(){
                                  cout << "Abbreviation is 3 Characture ! " << endl;
                             }
                         }while(Terminal.length()>3 || Terminal.length()<3);
-                        
+                            Roundlist *Buy = new Roundlist;
+                            round->ShowlistTerminal(Departure);
                     }else if(menu_buy == 2){
 
                     }else if(menu_buy == 3){
