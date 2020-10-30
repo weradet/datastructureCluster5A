@@ -305,7 +305,6 @@ class Roundlist{
         string Departure,terminal,TravelTime,timeLine;  //array string TimeOut,TimeTo     
         //Seat normalseat;   
         Roundlist *next;
-        Roundlist *pnext;
         TimeQueue timeout;
         Roundlist(string departure,string ter,string travel,string timeline){
             //set station&time
@@ -348,7 +347,6 @@ class Round{
                  tail = newnode;
              }else{
                  tail->next = newnode;
-                 newnode->pnext = tail;	
                  tail = newnode;
              }
         }
