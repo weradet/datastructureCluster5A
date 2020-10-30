@@ -505,10 +505,8 @@ class Round{
             Roundlist *temp = head;
             cout << "*******Terminal Station List*******" << endl;
             while(temp != NULL){
-                if(temp->Departure == departure){
-                    if(temp->terminal != temp->next->terminal){
-                        cout << temp->terminal << endl;
-                    }
+                if(temp->Departure.find(departure) != string::npos){         
+                        cout << temp->Departure  << " -> " <<  temp->terminal << endl;
                 }                     
             temp = temp->next;
             }
