@@ -369,16 +369,7 @@ class Round{
                cout << "Cannot Open File" << endl;
                  }
         }//loaddata
-        void ShowlistDeparture(){
-            Roundlist *temp = head;
-            cout << "*******Station List*******" << endl;
-            while(temp != NULL){
-                if(temp->Departure != temp->next->Departure){
-                    cout << temp->Departure << endl;
-                }      
-            temp = temp->next;
-            }
-        }
+
         void printlist(){
             Roundlist *cur=head;
             cout << "\t\t\t******************************** RoundList ********************************" << endl;
@@ -400,7 +391,7 @@ class Round{
              }
             cout << "\t\t\t***************************************************************************" << endl;
         }
-        void SortAlphabet(){
+        void SortAlphabetAscending(){
             Roundlist *cur=head;
             Roundlist *temp;
             while(cur!=NULL){
@@ -429,6 +420,38 @@ class Round{
                         cur = cur->next;          
             } //while
         //////////////////////////////////////////////////
+            printlist();
+        }//Sort
+        void SortAlphabeDescending(){
+            Roundlist *cur=head;
+            Roundlist *temp;
+            while(cur!=NULL){
+                Roundlist *min = cur;
+               Roundlist *nextNode = cur->next;
+                while(nextNode!=NULL){
+                        if(min->getDepature().compare(nextNode->getDepature())<0){
+                            min = nextNode;
+                        }//if
+                        nextNode=nextNode->next;
+                    }//while 
+                        string Departure = cur->Departure;
+                        string Ter = cur->terminal;
+                        string Traveltime = cur->TravelTime;
+                        TimeQueue Timeq = cur->timeout; 
+
+                        cur->Departure =  min->Departure;
+                        cur->terminal = min->terminal;
+                        cur->TravelTime =  min->TravelTime; 
+                        cur->timeout = min->timeout;
+
+                        min->Departure = Departure;
+                        min->terminal = Ter;
+                        min->TravelTime = Traveltime;    
+                        min->timeout = Timeq;    
+                        cur = cur->next;          
+            } //while
+        //////////////////////////////////////////////////
+            printlist();
         }//Sort
 
         void CheckTimeOut(){
@@ -451,6 +474,20 @@ class Round{
                         cur = cur->next;
                     }
 }
+
+         void Searchround(string departure , string Terminal){
+              Roundlist *cur = head;
+              while(cur != NULL){
+                 // cout << cur->Departure.find(departure) << endl;
+                 if(cur->Departure.find(departure) != string::npos && cur->terminal.find(Terminal) != string::npos){
+                    cout << "Round : " << cur->Departure << " " << cur->terminal << endl;
+                    cur->timeout.show();
+                    break;
+                 } 
+                cur = cur->next;
+              }
+              cout << "Can't Find" << endl;
+         }
 };
 void printmenu(){
     //แสดงหน้าเมนูหลัก
@@ -508,51 +545,37 @@ int main(){
                 cin.ignore(100, '\n'); 
            }
             if(menu_guest == 1){
-                int menu_buy;
-                cout << endl;   
-                cout << "\t\t\t\t\t+========================+" << endl;
-                cout << "\t\t\t\t\t+       Guest            +" << endl;
-                cout << "\t\t\t\t\t+========================+" << endl;
-                cout << "\t\t\t\t\t+ 1.One Way              +" << endl;
-                cout << "\t\t\t\t\t+ 2.Round Trip           +" << endl;
-                cout << "\t\t\t\t\t+ 3.Advance              +" << endl;
-                cout << "\t\t\t\t\t+ 4.Back To Main Menu    +" << endl;
-                cout << "\t\t\t\t\t+========================+" << endl;
-                cin >> menu_buy;
-                    if(menu_buy == 1){
-                        string Departure;
-                        round->SortAlphabet();
-                        round->ShowlistDeparture();
-                        cout << "Choose Departue Staion : ";
-                    }else if(menu_buy == 2){
-
-                    }else if(menu_buy == 3){
-
-                    }
+                
             }
              if(menu_guest == 2){
                  int menu_view;
                   do{
                      cout << "1. Show ALL Filghts " << endl;
-                     cout << "2. Filghts Booking " << endl;  
+                     cout << "2. Search Filghts  " << endl;  
                      cout << "3. Back to main Menu " << endl;
                      cin >> menu_view;
                         if(menu_view==1){
                              int menu_sort;
                             do{
-                               cout << "1.Sort By Cycle Time" << endl;
-                               cout << "2.Sort By AlphaBet" << endl; 
+                               cout << "1.Sort By AlphaBet Descending" << endl;
+                               cout << "2.Sort By AlphaBet Ascending" << endl; 
                                cout << "3.Back to main menu" << endl;
                                cin >> menu_sort;
                                  if(menu_sort == 1){
-                                     
+                                     round->SortAlphabeDescending();
                                  }else if(menu_sort==2){
-                                     round->SortAlphabet();
-                                     round->printlist();
-                                 }
-                                  
-                            }while(menu_sort !=3);
+                                     round->SortAlphabetAscending();
+                                 }                               
+                            }while(menu_sort !=3);    
                         }  
+                        else if(menu_view==2){
+                            string departure,desination;
+                                                                cin.ignore();
+                            cout << "Please Input Deparure : "; getline(cin,departure);
+                                                               // cin.ignore();
+                            cout << "Please Input Desination : ";getline(cin,desination);
+                            round->Searchround(departure,desination);
+                        }
                   }while(menu_view!=3);
              }
           }while(menu_guest != 3);
