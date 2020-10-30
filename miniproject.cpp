@@ -331,14 +331,14 @@ class Roundlist{
         //Seat normalseat;   
         Roundlist *next;
         TimeQueue timeout;
-        double Pice;
-        Roundlist(string departure,string ter,string travel,string timeline,double pice){
+        double Price;
+        Roundlist(string departure,string ter,string travel,string timeline,double price){
             //set station&time
             Departure = departure;
             terminal = ter;
             TravelTime = travel;
             timeLine = timeline;
-            Pice = pice;
+            Price = price;
             timeout.enqueue(timeline);
             next = NULL;
         }
@@ -353,6 +353,9 @@ class Roundlist{
         }
         string getTravelTime(){
             return TravelTime;//return string
+        }
+        double getpice(){
+            return Price;
         }
 };
 
@@ -370,8 +373,8 @@ class Round{
         Roundlist* gethead(){
             return head;
         }
-        void addround(string departure,string terminal,string time,string timeout,double pice){
-             Roundlist *newnode = new Roundlist(departure,terminal,time,timeout,pice);
+        void addround(string departure,string terminal,string time,string timeout,double price){
+             Roundlist *newnode = new Roundlist(departure,terminal,time,timeout,price);
              if(head==NULL){
                  head = newnode;
                  tail = newnode;
@@ -383,8 +386,8 @@ class Round{
         void loaddata_Airport(){
              //Roundlist *newnode;
             ifstream  myfile("flights.txt",ios::in);
-            string line,departure,terminal,time,timeout,pice_str;
-            double pice;
+            string line,departure,terminal,time,timeout,price_str;
+            double price;
              if(myfile.is_open()){
                 while(getline(myfile,line)){
                       departure = line.substr(0,line.find(',')); 
@@ -393,13 +396,13 @@ class Round{
                       line.erase(0,line.find(',')+1);
                       time = line.substr(0,line.find(',')); 
                       line.erase(0,line.find(',')+1);
-                      pice_str =  line.substr(0,line.find(','));  
+                      price_str =  line.substr(0,line.find(','));  
                       line.erase(0,line.find(',')+1); 
                       stringstream ss;
-                      ss << pice_str;
-                      ss >> pice;
+                      ss << price_str;
+                      ss >> price;
                       timeout = line.substr(0,string::npos);
-                    addround(departure,terminal,time,timeout,pice);
+                    addround(departure,terminal,time,timeout,price);
                  }  
             }else{
                cout << "Cannot Open File" << endl;
@@ -536,7 +539,7 @@ class Round{
                     cout << "Round : " << cur->Departure << "->" << cur->terminal << endl;
                     cur->timeout.show();
                     cout << endl;
-                    cout << cur->Pice << endl;
+                    cout << cur->Price << endl;
                      return;
                  } 
                 cur = cur->next;
@@ -583,11 +586,24 @@ class Round{
 
 class Ticket{
     public:
-    string Departure,Terminal;
-    int seatNo;
-    double pice;
-    void printTicket(){///
-
+        string Name,Departure,Terminal,Time;
+        int seatNo;
+        double Pice;
+    void set(string departure,string terminal,double pice,int seat,string time){
+        Departure = departure;
+        Terminal = terminal;
+        seatNo = seat;
+        Pice = pice;
+        Time = time;
+    }    
+    void printTicket(){
+        time_t now = time(0); 
+        tm *ltm = localtime(&now);
+        cout << "************************** Detail Ticket **************************" << endl;
+        cout  << setw(40) << left << "Departure : "+Departure << "SeatNo : " << seatNo << endl;
+        cout  << setw(40) << left << "Terminal : "+Terminal << "DATE : " << ltm->tm_mday << "." << 1 + ltm->tm_mon << "." << 1900 + ltm->tm_year << endl;
+        cout  << "Price : " << Pice << endl;
+        cout << "*******************************************************************" << endl;
     }  
 };
 void printmenu(){
@@ -608,6 +624,7 @@ int main(){
     //main Program
     int main_menu;
     Round *round = new Round();
+    Ticket *ticket = new Ticket();
     time_t my_time = time(NULL); 
       //round->CheckTimeOut();
   do{
@@ -694,13 +711,15 @@ int main(){
                                 //linklist Total Round -> Queue Time -> time [ index ] -> Seat Normal -> Set Seat 
                                 Buy->timeout.time[Buy->timeout.checkTime(time)].normalseat.setseat(seat);
                                 Buy->timeout.time[Buy->timeout.checkTime(time)].showseatNormal();
+                                ticket->set(Buy->Departure,Buy->terminal,Buy->Price,seat,time);
+                                ticket->printTicket();
                             }else{
                                  cout << "NOT TIME" << endl;
                             }
                             }else{
                                 cout << "Error" << endl;
                             }
-
+                            
                     }else if(menu_buy == 2){
 
                     }else if(menu_buy == 3){
