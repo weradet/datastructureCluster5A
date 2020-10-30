@@ -305,6 +305,7 @@ class Roundlist{
         string Departure,terminal,TravelTime,timeLine;  //array string TimeOut,TimeTo     
         //Seat normalseat;   
         Roundlist *next;
+        Roundlist *pnext;
         TimeQueue timeout;
         Roundlist(string departure,string ter,string travel,string timeline){
             //set station&time
@@ -347,6 +348,7 @@ class Round{
                  tail = newnode;
              }else{
                  tail->next = newnode;
+                 newnode->pnext = tail;	
                  tail = newnode;
              }
         }
@@ -420,7 +422,6 @@ class Round{
                         cur = cur->next;          
             } //while
         //////////////////////////////////////////////////
-            printlist();
         }//Sort
         void SortAlphabeDescending(){
             Roundlist *cur=head;
@@ -451,7 +452,6 @@ class Round{
                         cur = cur->next;          
             } //while
         //////////////////////////////////////////////////
-            printlist();
         }//Sort
 
         void CheckTimeOut(){
@@ -490,11 +490,28 @@ class Round{
          }
          void ShowlistDeparture(){
             Roundlist *temp = head;
-            cout << "*******Station List*******" << endl;
+            Roundlist *ptemp = head;
+            cout << "*******Departure sStation List*******" << endl;
+            while(ptemp != NULL){     
+                if(ptemp->next == NULL){
+                    cout << ptemp->Departure << endl;
+                    break;
+                }else if(ptemp->Departure != ptemp->next->Departure){
+                    cout << ptemp->Departure << endl;
+                }
+                ptemp = ptemp->next; 
+            }
+            
+        }
+        void ShowlistTerminal(string departure){
+            Roundlist *temp = head;
+            cout << "*******Terminal Station List*******" << endl;
             while(temp != NULL){
-                if(temp->Departure != temp->next->Departure){
-                    cout << temp->Departure << endl;
-                }      
+                if(temp->Departure == departure){
+                    if(temp->terminal != temp->next->terminal){
+                        cout << temp->terminal << endl;
+                    }
+                }                     
             temp = temp->next;
             }
         }
@@ -567,10 +584,15 @@ int main(){
                 cout << "\t\t\t\t\t+========================+" << endl;
                 cin >> menu_buy;
                     if(menu_buy == 1){
-                        string Departure;
+                        string Departure,Terminal;
                         round->SortAlphabetAscending();
                         round->ShowlistDeparture();
                         cout << "Choose Departue Staion : ";
+                        cin >> Departure;
+                        round->SortAlphabetAscending();
+                        round->ShowlistTerminal(Departure);
+                        cout << "Choose Terminal Staion : ";
+                        cin >> Terminal;
                     }else if(menu_buy == 2){
 
                     }else if(menu_buy == 3){
