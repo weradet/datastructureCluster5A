@@ -24,9 +24,7 @@ class Seat{
             for(int i=0;i<6;i++){
                 for(int j=0;j<20;j++){
                    //seat_normal[i][j] = 0;
-                   if(seat_normal[i][j]==0){
-                        cout << seat_normal[i][j] << " ";
-                   }
+                        cout << "SEAT :"  << i << j << " " <<seat_normal[i][j] << " ";
                 }
                 cout << endl;
             }
@@ -218,13 +216,12 @@ class TimeQueue{
         Queue Time 
         รอบเวลาต่างๆในเที่ยวบิน
     */
-    private:
+     public:
        TimeAir *time;
        int max;
        int count;
        int font;
        int rear;
-    public:
        TimeQueue(){
            // timeout = new string[5];
             time = new TimeAir[5];
@@ -296,6 +293,14 @@ class TimeQueue{
         }
         TimeAir gettimeout(int index){
             return time[index];
+        }
+        int checkTime(string user_time){
+            for(int i = font ; i<rear ; i++){
+                 if(time[i].gettime().find(user_time) != string::npos){
+                    return i;
+                 }
+            }
+            return -1;
         }
 };
 
@@ -514,6 +519,16 @@ class Round{
             temp = temp->next;
             }
         }
+        Roundlist* BuyTicket(string daparture , string Termenal ){
+             Roundlist *temp = head;
+             while(temp != NULL){
+                  if(temp->Departure.find(daparture) != string::npos && temp->terminal.find(Termenal) != string::npos){
+                       return temp;
+                  }
+                  temp = temp->next;
+             } 
+             return NULL;
+        }
 
 };
 void printmenu(){
@@ -596,7 +611,7 @@ int main(){
                         }while(Departure.length()>3 || Departure.length()<3);
 
                         round->SortAlphabetAscending();
-                        //round->ShowlistTerminal(Departure);
+                        round->ShowlistTerminal(Departure);
                         cout << "Choose Terminal Staion (Abbreviation 3 Characture) : ";
                          do{
                             cin >> Terminal;
@@ -605,7 +620,17 @@ int main(){
                             }
                         }while(Terminal.length()>3 || Terminal.length()<3);
                             Roundlist *Buy = new Roundlist;
-                            round->ShowlistTerminal(Departure);
+                            string time;
+                            Buy = round->BuyTicket(Departure,Terminal);
+                            Buy->timeout.show();
+                            cout << "Choose the Time : "; cin >> time;
+                            if(Buy->timeout.checkTime(time) != -1){
+                                cout<< "test : " << Buy->timeout.checkTime(time) << endl;
+                                Buy->timeout.time[Buy->timeout.checkTime(time)].showseatNormal();
+                            }else{
+
+                            }
+
                     }else if(menu_buy == 2){
 
                     }else if(menu_buy == 3){
