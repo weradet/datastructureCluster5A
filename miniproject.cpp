@@ -23,6 +23,13 @@ class Seat{
             }
         }
         void ShowMoreSeat(){
+            cout << "                              =   =                                               " << endl;
+            cout << "                            =     =                                               =" << endl;
+            cout << "                         =        =                                             = =" << endl;
+            cout << "                       =          =                                           =   =" << endl;
+            cout << "                     =            =                                         =     =" << endl;
+            cout << "                   =              =                                       =       =" << endl;
+            cout << "===================================================================================" << endl;
             for(int i=0;i<6;i++){
                 for(int j=0;j<10;j++){
                    //seat_normal[i][j] = 0;
@@ -34,11 +41,12 @@ class Seat{
                 }
                 cout << endl;
             }
+         cout << "======================================================================================" << endl;
         }  
     void setseat(int s) { 
 		int col = s / 10; // mod i
 		int rol = s % 10; // mod j
-		if (col > 10 || rol > 10) {
+		if (col >= 6 || rol > 10) {
 			cout << "Cannot reserve (there are not the seat)" << endl;
 		}
 		else {
@@ -54,159 +62,7 @@ class Seat{
 		}
     }
 };
-class CustomerUser{   
-     private: 
-      string Username,Password,Name,Lastname,Tel,Idcard;
-      int customer_point; 
-     public:
-      CustomerUser *next;
-      CustomerUser(){
-          next = NULL;
-      }
-      CustomerUser(string user_name,string pass,string name,string lname,string tel,string id_card,int point){
-       //setup user
-          Username = user_name;
-          Password = pass;
-          Name = name;
-          Lastname = lname;
-          Tel = tel;
-          Idcard = id_card;
-          customer_point = point; 
-          next = NULL;
-      }
-     string getUsername(){
-          return Username; 
-     } //getusername
-      string getpassword(){
-          return Password; 
-     } //getusername
-     string getName(){
-         return Name;
-     }
-     string getLastname(){
-         return Lastname;
-     }
-     string getTel(){
-         return Tel;
-     }
-     string getIdCard(){
-         return Idcard;
-     }
-};
 
-class CustomerControler{
-     private:
-        CustomerUser *head;
-        CustomerUser *tail;  
-     public:
-        CustomerControler(){
-            head = NULL;
-            tail = NULL;
-            Loaddata();
-        }
-        bool LogginCustomer(string user_name,string pass){
-           //get parameter username and pass for check 
-           // is true return true 
-              CustomerUser *cur = head;
-             while(cur!=NULL){
-                if(cur->getUsername()==user_name&&cur->getpassword()==pass){
-                    //เช็คว่าชื่อกับรหัสผ่านว่าตรงกันไหม
-                   return true; 
-                   break;
-                 }
-                 cur = cur->next; 
-             }//while
-                   return false;  
-        }
-        
-        void ResigerUser(string user,string pass,string name,string last,string tel,string id_card,int point){
-              //เพิ่มNode
-               CustomerUser *User = new CustomerUser(user,pass,name,last,tel,id_card,point); // add ไปใน node 
-                if(head == NULL){ 
-                    head = User;
-                    tail = User;
-                }else{
-                    tail->next = User;
-                    tail=User;
-                }
-                //writefile(user,pass,name,last,tel); //เรียกใช้การเขียนไฟล์     
-        }//Register
-        void Loaddata(){
-            //โหลดข้อมูลจากไฟล์เข้าสู่Linkedlist
-           string line,user_name,pass,name,lastname,tel,id_card,point_str;
-           ifstream data("data.txt",ios::in);
-           if(data.is_open()){
-                  while(getline(data,line)){ 
-                user_name =  line.substr(0,line.find(','));
-                               line.erase(0,line.find(',')+1);  
-                   pass   =  line.substr(0,line.find(','));
-                               line.erase(0,line.find(',')+1);   
-                   name   =  line.substr(0,line.find(','));
-                               line.erase(0,line.find(',')+1);  
-                 lastname =  line.substr(0,line.find(','));
-                               line.erase(0,line.find(',')+1);   
-                  tel =      line.substr(0,line.find(','));
-                               line.erase(0,line.find(',')+1);   
-                  id_card =  line.substr(0,line.find(','));
-                               line.erase(0,line.find(',')+1);
-                  point_str = line.substr(0,line.find(','));             
-                               line.erase(0,string::npos);   
-
-                 stringstream ss;
-                 int point;
-                 ss << point_str;
-                 ss >> point;                                              
-                  ResigerUser(user_name,pass,name,lastname,tel,id_card,point);
-            }//while
-          }else{
-             cout << "Error File!!" << endl;
-          } 
-        }//loaddata
-        bool CheckUserName(string username){
-             //เช็คว่า ชื่อผู้ใช้ว่าตรงกันไหม
-               CustomerUser *cur = head;
-                 while(cur != NULL){
-                    if(username == cur->getUsername()){
-                       cout << "\t\t\t\t\tUsername already in use" << endl;
-                       return true;
-                       break;  
-                    }//if  
-                    cur = cur->next;
-                 } //while
-                       return false;    //return flase           
-        }//check
-        bool CheckIdCard(string Idcard){
-              //เช็คว่าบัตรประชน
-            CustomerUser *cur = head;
-              while(cur != NULL){
-                   if(Idcard == cur->getIdCard()){
-                       cout << "\t\t\t\t\tId Card already in use" << endl;
-                       return true;
-                       break; 
-                   }
-                   cur = cur->next;   //next
-              } //while
-                       return false;
-        }//checkcard
-        void show(){
-            CustomerUser *cur = head;
-            while(cur != NULL){
-                cout << cur->getUsername() << endl;
-                cur = cur->next;
-            }
-        }
-         void writefile(){
-             //เขียนไฟล์
-            ofstream file("data.txt",ios::out); // เขียนไฟล์
-            CustomerUser *cur = head;
-            while(cur != NULL){
-                 file << cur->getUsername()<<","+cur->getpassword()<<","+cur->getName()<<","+cur->getLastname()<<","
-                 <<cur->getTel()<<","<<cur->getIdCard() << endl; // เขียนรายละเอียดลลงไปในไฟล์
-                 cur=cur->next;
-            }
-            file.close(); // ปิดไฟล์
-        }
-};
 
 //roundlist
 //roundlist
@@ -231,6 +87,7 @@ class TimeAir{
       }
     
 };
+
 class TimeQueue{
     /*
         Queue Time 
@@ -539,7 +396,7 @@ class Round{
                     cout << "Round : " << cur->Departure << "->" << cur->terminal << endl;
                     cur->timeout.show();
                     cout << endl;
-                    cout << cur->Price << endl;
+                    cout << "Price : " <<  cur->Price << endl;
                      return;
                  } 
                 cur = cur->next;
@@ -586,7 +443,7 @@ class Round{
 
 class Ticket{
     public:
-        string Name,Departure,Terminal,Time;
+        string Name,Departure,Terminal,Time,Date;
         int seatNo;
         double Pice;
     void set(string departure,string terminal,double pice,int seat,string time){
@@ -595,17 +452,214 @@ class Ticket{
         seatNo = seat;
         Pice = pice;
         Time = time;
-    }    
+    }   
+    void setRoundTrip(string date){
+        Date = date;
+    } 
+
     void printTicket(){
         time_t now = time(0); 
         tm *ltm = localtime(&now);
         cout << "************************** Detail Ticket **************************" << endl;
         cout  << setw(40) << left << "Departure : "+Departure << "SeatNo : " << seatNo << endl;
-        cout  << setw(40) << left << "Terminal : "+Terminal << "DATE : " << ltm->tm_mday << "." << 1 + ltm->tm_mon << "." << 1900 + ltm->tm_year << endl;
+        cout  << setw(40) << left << "Terminal : "+Terminal << "DATE : " << ltm->tm_mday << "/" << 1 + ltm->tm_mon << "/" << 1900 + ltm->tm_year << endl;
         cout  << "Price : " << Pice << endl;
         cout << "*******************************************************************" << endl;
     }  
+    void printRoundTrip(){
+        time_t now = time(0); 
+        tm *ltm = localtime(&now);
+        cout << "************************** Detail Back Ticket **************************" << endl;
+        cout  << setw(40) << left << "Departure : "+Terminal << "SeatNo : " << seatNo << endl;
+        cout  << setw(40) << left << "Terminal : "+Departure << "DATE : " << Date  << endl;
+        cout  << "Price : " << Pice << endl;
+        cout << "************************************************************************" << endl;
+    } 
+     void printAdvace(){
+        time_t now = time(0); 
+        tm *ltm = localtime(&now);
+        cout << "************************** Detail Advace Ticket **************************" << endl;
+        cout  << setw(40) << left << "Departure : "+Departure << "SeatNo : " << seatNo << endl;
+        cout  << setw(40) << left << "Terminal : "+Terminal << "DATE : " << Date  << endl;
+        cout  << "Price : " << Pice << endl;
+        cout << "************************************************************************" << endl;
+    }
+
 };
+
+class CustomerUser{   
+     private: 
+      string Username,Password,Name,Lastname,Tel,Idcard;
+      int customer_point; 
+     public:
+      CustomerUser *next;
+      Ticket *user_ticket;
+      CustomerUser(){
+          next = NULL;
+      }
+      CustomerUser(string user_name,string pass,string name,string lname,string tel,string id_card,int point){
+       //setup user
+          Username = user_name;
+          Password = pass;
+          Name = name;
+          Lastname = lname;
+          Tel = tel;
+          Idcard = id_card;
+          customer_point = point; 
+          user_ticket = new Ticket;
+          next = NULL;
+      }
+     string getUsername(){
+          return Username; 
+     } //getusername
+      string getpassword(){
+          return Password; 
+     } //getusername
+     string getName(){
+         return Name;
+     }
+     string getLastname(){
+         return Lastname;
+     }
+     string getTel(){
+         return Tel;
+     }
+     string getIdCard(){
+         return Idcard;
+     }
+     int getpoint(){
+         return customer_point;
+     }
+     void Setpoint(int point){
+         customer_point != point; 
+     }
+};
+
+class CustomerControler{
+     private:
+        CustomerUser *head;
+        CustomerUser *tail;  
+     public:
+        CustomerControler(){
+            head = NULL;
+            tail = NULL;
+            Loaddata();
+        }
+        bool LogginCustomer(string user_name,string pass){
+           //get parameter username and pass for check 
+           // is true return true 
+              CustomerUser *cur = head;
+             while(cur!=NULL){
+                if(cur->getUsername()==user_name&&cur->getpassword()==pass){
+                    //เช็คว่าชื่อกับรหัสผ่านว่าตรงกันไหม
+                   return true; 
+                   break;
+                 }
+                 cur = cur->next; 
+             }//while
+                   return false;  
+        }
+        
+        void ResigerUser(string user,string pass,string name,string last,string tel,string id_card,int point){
+              //เพิ่มNode
+               CustomerUser *User = new CustomerUser(user,pass,name,last,tel,id_card,point); // add ไปใน node 
+                if(head == NULL){ 
+                    head = User;
+                    tail = User;
+                }else{
+                    tail->next = User;
+                    tail=User;
+                }
+                //writefile(user,pass,name,last,tel); //เรียกใช้การเขียนไฟล์     
+        }//Register
+        void Loaddata(){
+            //โหลดข้อมูลจากไฟล์เข้าสู่Linkedlist
+           string line,user_name,pass,name,lastname,tel,id_card,point_str;
+           ifstream data("data.txt",ios::in);
+           if(data.is_open()){
+                  while(getline(data,line)){ 
+                user_name =  line.substr(0,line.find(','));
+                               line.erase(0,line.find(',')+1);  
+                   pass   =  line.substr(0,line.find(','));
+                               line.erase(0,line.find(',')+1);   
+                   name   =  line.substr(0,line.find(','));
+                               line.erase(0,line.find(',')+1);  
+                 lastname =  line.substr(0,line.find(','));
+                               line.erase(0,line.find(',')+1);   
+                  tel =      line.substr(0,line.find(','));
+                               line.erase(0,line.find(',')+1);   
+                  id_card =  line.substr(0,line.find(','));
+                               line.erase(0,line.find(',')+1);
+                  point_str = line.substr(0,line.find(','));             
+                               line.erase(0,string::npos);   
+
+                 stringstream ss;
+                 int point;
+                 ss << point_str;
+                 ss >> point;                                              
+                  ResigerUser(user_name,pass,name,lastname,tel,id_card,point);
+            }//while
+          }else{
+             cout << "Error File!!" << endl;
+          } 
+        }//loaddata
+        bool CheckUserName(string username){
+             //เช็คว่า ชื่อผู้ใช้ว่าตรงกันไหม
+               CustomerUser *cur = head;
+                 while(cur != NULL){
+                    if(username == cur->getUsername()){
+                       cout << "\t\t\t\t\tUsername already in use" << endl;
+                       return true;
+                       break;  
+                    }//if  
+                    cur = cur->next;
+                 } //while
+                       return false;    //return flase           
+        }//check
+        bool CheckIdCard(string Idcard){
+              //เช็คว่าบัตรประชน
+            CustomerUser *cur = head;
+              while(cur != NULL){
+                   if(Idcard == cur->getIdCard()){
+                       cout << "\t\t\t\t\tId Card already in use" << endl;
+                       return true;
+                       break; 
+                   }
+                   cur = cur->next;   //next
+              } //while
+                       return false;
+        }//checkcard
+        void show(){
+            CustomerUser *cur = head;
+            while(cur != NULL){
+                cout << cur->getUsername() << endl;
+                cur = cur->next;
+            }
+        }
+         void writefile(){
+             //เขียนไฟล์
+            ofstream file("data.txt",ios::out); // เขียนไฟล์
+            CustomerUser *cur = head;
+            while(cur != NULL){
+                 file << cur->getUsername()<<","+cur->getpassword()<<","+cur->getName()<<","+cur->getLastname()<<","
+                 <<cur->getTel()<<","<<cur->getIdCard() << "," << cur->getpoint() << endl; // เขียนรายละเอียดลลงไปในไฟล์
+                 cur=cur->next;
+            }
+            file.close(); // ปิดไฟล์
+        }
+        CustomerUser* getname(string username){
+            CustomerUser *cur = head;
+            while(cur != NULL){
+                 if(cur->getUsername() == username){
+                    return cur;
+                 } 
+                 cur = cur->next;
+            }
+              return NULL;
+        }
+};
+
+
 void printmenu(){
     //แสดงหน้าเมนูหลัก
     ifstream  file("menu.txt",ios::in);
@@ -619,6 +673,78 @@ void printmenu(){
     }
 }//print menu
 
+int CountDate(string date){
+      int count = 0;
+      for(int i = 0 ; i < date.length() ; i++ ){
+           if(date[i] == '/'){
+              count++; 
+           }
+      } 
+     // cout << count << endl;
+      return count;
+}
+
+bool CheckDatePresent(string Date){
+        //cout<<"Hey" << endl;
+        cout << Date << endl;
+        string day_str,month_str,year_str;
+        int day,month,year;
+        day_str = Date.substr(0,Date.find("/"));
+                  Date.erase(0,Date.find("/")+1);
+        month_str = Date.substr(0,Date.find("/")); 
+                 Date.erase(0,Date.find("/")+1);
+        year_str = Date.substr(0,string::npos); 
+                  Date.erase(0,Date.find("/")+1);
+        stringstream ss,mm,yy;
+        ss << day_str;
+        ss >>   day;
+        mm << month_str;
+        mm >> month;
+        yy << year_str;
+        yy >> year;
+        //Gen Time
+        cout << day << " "<< month<< " " << year << endl;
+        time_t now = time(0); 
+        tm *ltm = localtime(&now);
+        if(year < 1900 + ltm->tm_year){
+            // cout << "Eiei" << endl;
+             return false;
+        }else if(year == 1900 + ltm->tm_year){
+             if(day < ltm->tm_mday && month < 1 + ltm->tm_mon){
+                return false;
+             }else if(day < ltm->tm_mday && month > 1 + ltm->tm_mon){
+                return true;
+             }
+        }
+        return true;
+}
+
+string pass(){
+  char ch = '\0',match[20];
+  for(int i = 0;i >= 0;){
+    ch = getch();
+    if(ch != 8 && ch != 13){
+      cout << "*";
+      match[i] = ch;
+      i++;
+    }else if(ch == 8){ // if backspace is presssed
+      if(i > 0){
+        cout << "\b \b"; // moves cursor to the left print <space> again move cursor to left
+        i--;
+      }
+    }else if(ch == 13){
+      match[i] = '\0'; // if enter is pressed, last character in match[] becomes null
+      break;          // for end of string
+    }else{
+      break;
+    }
+  }
+  return match;
+}
+
+void Payment(){
+
+}
 int main(){
     CustomerControler *customerControl = new CustomerControler(); //obj customerconntroler
     //main Program
@@ -628,6 +754,7 @@ int main(){
     time_t my_time = time(NULL); 
       //round->CheckTimeOut();
   do{
+       mainmenu: 
        round->CheckTimeOut();
       // customerControl->show();
        //system("cls");
@@ -682,6 +809,9 @@ int main(){
                         do{
                         cout << "Choose Departue Staion (Abbreviation 3 Characture) : ";                      
                             cin >> Departure;
+                            for(int i = 0; i< Departure.length() ; i++){
+                                 Departure[i] = toupper(Departure[i]);
+                               }
                             if(Departure.length() > 3 || Departure.length() < 3 || round->CheckDeparture(Departure) == false){
                                  cout << "Abbreviation is 3 Characture ! " << endl;
                             }
@@ -691,6 +821,9 @@ int main(){
                         do{
                         cout << "Choose Terminal Staion (Abbreviation 3 Characture) : ";     
                             cin >> Terminal;
+                            for(int i = 0; i< Terminal.length() ; i++){
+                                Terminal[i] = toupper(Terminal[i]);
+                               }
                             if(Terminal.length() > 3 || Terminal.length() < 3 || round->CheckTerminal(Terminal) == false){
                                  cout << "Abbreviation is 3 Characture ! " << endl;
                             }
@@ -703,27 +836,197 @@ int main(){
                             Buy->timeout.show();
                             cout << "Choose the Time : "; cin >> time;
                             if(Buy->timeout.checkTime(time) != -1){
-                                int seat;
-                               // cout<< "test : " << Buy->timeout.checkTime(time) << endl;
+                                int seat,preple,Total=0;
+                                cout << "How Preple ? : "; cin >> preple;
+                                for(int i = 1 ; i <= preple ; i++){
                                 Buy->timeout.time[Buy->timeout.checkTime(time)].showseatNormal();
+                                do{
                                 cout << "Input Seat Ex. (01) :"; cin >> seat;
-
+                                  if(seat > 59 || seat < 1){
+                                      cout << "Threre are not Seat!! " << endl;
+                                     }
+                                  }while(seat > 59 || seat < 1);
                                 //linklist Total Round -> Queue Time -> time [ index ] -> Seat Normal -> Set Seat 
                                 Buy->timeout.time[Buy->timeout.checkTime(time)].normalseat.setseat(seat);
                                 Buy->timeout.time[Buy->timeout.checkTime(time)].showseatNormal();
                                 ticket->set(Buy->Departure,Buy->terminal,Buy->Price,seat,time);
                                 ticket->printTicket();
-                            }else{
-                                 cout << "NOT TIME" << endl;
-                            }
+                                Total += Buy->Price;
+                                    }
+                               // cout<< "test : " << Buy->timeout.checkTime(time) << endl;
+                                  cout << "Total = :" << Total << "Bath" << endl;
+                                 }else{
+                                  cout << "NOT TIME" << endl;
+                               }
                             }else{
                                 cout << "Error" << endl;
                             }
+                            goto mainmenu;
+                    }
+                    else if(menu_buy == 2){                     
+                         string Departure,Terminal;
+                        round->SortAlphabetAscending();
+                        round->ShowlistDeparture();
+                        do{
+                        cout << "Choose Departue Staion (Abbreviation 3 Characture) : ";                      
+                            cin >> Departure;
+                            for(int i = 0; i< Departure.length() ; i++){
+                                 Departure[i] = toupper(Departure[i]);
+                               }
+                            if(Departure.length() > 3 || Departure.length() < 3 || round->CheckDeparture(Departure) == false){
+                                 cout << "Abbreviation is 3 Characture ! " << endl;
+                            }
+                        }while(Departure.length()>3 || Departure.length()<3 || round->CheckDeparture(Departure) == false);
+                        round->SortAlphabetAscending();
+                        round->ShowlistTerminal(Departure);
+                        do{
+                        cout << "Choose Terminal Staion (Abbreviation 3 Characture) : ";     
+                            cin >> Terminal;
+                            for(int i = 0; i< Terminal.length() ; i++){
+                                Terminal[i] = toupper(Terminal[i]);
+                               }
+                            if(Terminal.length() > 3 || Terminal.length() < 3 || round->CheckTerminal(Terminal) == false){
+                                 cout << "Abbreviation is 3 Characture ! " << endl;
+                            }
+                        }while(Terminal.length()>3 || Terminal.length()<3 || round->CheckTerminal(Terminal) == false);                     
+                            Roundlist *BuyGo = new Roundlist;
+                            Roundlist *BuyBack = new Roundlist;
+                            string timeto,timeback,date;
+                            BuyGo = round->BuyTicket(Departure,Terminal);
+                            BuyBack = round->BuyTicket(Terminal,Departure);
+                            do{
+                                loop:
+                              cout << "Input Return date (d/m/y) Ex.(1/05/2012) : "; cin >> date;
+                                if(CheckDatePresent(date) == false){
+                                      cout << "Input again !! " << endl;
+                                      goto loop;
+                                  } 
                             
-                    }else if(menu_buy == 2){
+                            }while(CountDate(date) != 2);
+                            
+                            if(BuyGo != NULL){
 
-                    }else if(menu_buy == 3){
+                                    BuyGo->timeout.show();
+                                    cout << "Choose the Time To : "; cin >> timeto;
+                                    BuyBack->timeout.show();
+                                    cout << "Choose the Time Back : "; cin >> timeback;
 
+                                    if(BuyGo->timeout.checkTime(timeto) != -1 && BuyBack->timeout.checkTime(timeback)){
+                                        int seat,preple,Total=0;
+                                        cout << "How Preple ? : "; cin >> preple;
+
+                                        for(int i = 1 ; i <= preple ; i++){
+                                        BuyGo->timeout.time[BuyGo->timeout.checkTime(timeto)].showseatNormal();
+
+                                        do{
+                                          cout << "Input Seat Ex. (01) :"; cin >> seat;
+                                          if(seat > 59 || seat < 1){
+                                            cout << "Threre are not Seat!! " << endl;
+                                            }
+                                        }while(seat > 59 || seat < 1);
+                                        //linklist Total Round -> Queue Time -> time [ index ] -> Seat Normal -> Set Seat 
+                                            BuyGo->timeout.time[BuyGo->timeout.checkTime(timeto)].normalseat.setseat(seat);
+                                            BuyGo->timeout.time[BuyGo->timeout.checkTime(timeto)].showseatNormal();
+                                            ticket->set(BuyGo->Departure,BuyGo->terminal,BuyGo->Price,seat,timeto);
+                                            ticket->setRoundTrip(date);
+                                            ticket->printTicket();
+                                            ticket->printRoundTrip();
+                                            Total += BuyGo->Price;
+                                            Total *= 2;
+                                            }
+                                    // cout<< "test : " << Buy->timeout.checkTime(time) << endl;
+                                        cout << "Total = :" << Total << "Bath" << endl;
+
+                                    }else{
+                                        cout << "NOT TIME" << endl;
+                                    }
+                            }else{
+                                cout << "Error" << endl;
+                            }
+
+                    }
+                    else if(menu_buy == 3){
+                        int menu_ad;
+                        do{
+                            cout << "1. Advance One Way :" << endl;
+                            cout << "2. Advance Round Trip" << endl;
+                            cout << "3. Back to Menu" << endl;
+                            cout << "Please Input the choice : "; cin >> menu_ad;
+                            if(!cin){
+                                cin.clear(); 
+                                cin.ignore(100, '\n'); 
+                            }else if(menu_ad == 1){
+                              
+                             string Departure,Terminal;
+                             round->SortAlphabetAscending();
+                             round->ShowlistDeparture();
+                                    do{
+                                    cout << "Choose Departue Staion (Abbreviation 3 Characture) : ";                      
+                                        cin >> Departure;
+                                        for(int i = 0; i< Departure.length() ; i++){
+                                            Departure[i] = toupper(Departure[i]);
+                                        }
+                                        if(Departure.length() > 3 || Departure.length() < 3 || round->CheckDeparture(Departure) == false){
+                                            cout << "Abbreviation is 3 Characture ! " << endl;
+                                        }
+                                    }while(Departure.length()>3 || Departure.length()<3 || round->CheckDeparture(Departure) == false);
+                                    round->SortAlphabetAscending();
+                                    round->ShowlistTerminal(Departure);
+                                    do{
+                                    cout << "Choose Terminal Staion (Abbreviation 3 Characture) : ";     
+                                        cin >> Terminal;
+                                        for(int i = 0; i< Terminal.length() ; i++){
+                                            Terminal[i] = toupper(Terminal[i]);
+                                        }
+                                        if(Terminal.length() > 3 || Terminal.length() < 3 || round->CheckTerminal(Terminal) == false){
+                                            cout << "Abbreviation is 3 Characture ! " << endl;
+                                        }
+                                    }while(Terminal.length()>3 || Terminal.length()<3 || round->CheckTerminal(Terminal) == false);
+                                        
+                                        Roundlist *Buy = new Roundlist;
+                                        string time,date;
+                                        Buy = round->BuyTicket(Departure,Terminal);
+                                            do{
+                                            thisis:
+                                              cout << "Input Return date (d/m/y) Ex.(1/05/2012) : "; cin >> date;
+                                                if(CheckDatePresent(date) == false){
+                                                 cout << "Input again !! " << endl;
+                                                 goto thisis;                                              
+                                                 } 
+                                            }while(CountDate(date) != 2);
+                                        if(Buy != NULL){
+                                        Buy->timeout.show();
+                                        cout << "Choose the Time : "; cin >> time;
+                                        if(Buy->timeout.checkTime(time) != -1){
+                                            int seat,preple,Total=0;
+                                            cout << "How Preple ? : "; cin >> preple;
+                                            for(int i = 1 ; i <= preple ; i++){
+                                            Buy->timeout.time[Buy->timeout.checkTime(time)].showseatNormal();
+                                            do{
+                                            cout << "Input Seat Ex. (01) :"; cin >> seat;
+                                            if(seat > 59 || seat < 1){
+                                                cout << "Threre are not Seat!! " << endl;
+                                                }
+                                            }while(seat > 59 || seat < 1);
+                                            //linklist Total Round -> Queue Time -> time [ index ] -> Seat Normal -> Set Seat 
+                                            Buy->timeout.time[Buy->timeout.checkTime(time)].normalseat.setseat(seat);
+                                            Buy->timeout.time[Buy->timeout.checkTime(time)].showseatNormal();
+                                            ticket->set(Buy->Departure,Buy->terminal,Buy->Price,seat,time);
+                                            ticket->setRoundTrip(date);
+                                            ticket->printAdvace();
+                                            Total += Buy->Price;
+                                                }
+                                        // cout<< "test : " << Buy->timeout.checkTime(time) << endl;
+                                            cout << "Total = :" << Total << "Bath" << endl;
+                                            }else{
+                                            cout << "NOT TIME" << endl;
+                                        }
+                                        }else{
+                                            cout << "Error" << endl;
+                                        }
+                            }
+
+                        }while(menu_ad != 3);
                     }
             }
              if(menu_guest == 2){
@@ -767,9 +1070,12 @@ int main(){
            string username,user_pass="";
            do{
             cout << "\t\t\t\t\tPlease Enter Username : "; cin >> username; //ใส่ username
-            cout << "\t\t\t\t\tPlease Enter Password : "; cin >> user_pass;
+            cout << "\t\t\t\t\tPlease Enter Password : ";  user_pass = pass();
              if(customerControl->LogginCustomer(username,user_pass)){
+                  CustomerUser *temp = customerControl->getname(username);
                     do{
+                        cout << endl; 
+                        cout << "Wellcome : " << temp->getName() << "\t" << temp->getLastname() << endl;
                         cout << endl;   
                         cout << "\t\t\t\t\t+========================+" << endl;
                         cout << "\t\t\t\t\t+       MEMBER           +" << endl;
@@ -791,7 +1097,86 @@ int main(){
                         cin.ignore(100, '\n'); 
                           }
                         if(member_menu == 1){
-                            cout << "COMMING SOON" << endl;
+
+                            int menu_buy_member;
+                          do{
+                            cout << endl;   
+                            cout << "\t\t\t\t\t+========================+" << endl;
+                            cout << "\t\t\t\t\t+       Member           +" << endl;
+                            cout << "\t\t\t\t\t+========================+" << endl;
+                            cout << "\t\t\t\t\t+ 1.One Way              +" << endl;
+                            cout << "\t\t\t\t\t+ 2.Round Trip           +" << endl;
+                            cout << "\t\t\t\t\t+ 3.Advance              +" << endl;
+                            cout << "\t\t\t\t\t+ 4.Back To Main Menu    +" << endl;
+                            cout << "\t\t\t\t\t+========================+" << endl;
+                            cin >> menu_buy_member;
+                            if(!cin){
+                                cin.clear(); 
+                                cin.ignore(100, '\n'); 
+                            }
+                            else if(menu_buy_member == 1){
+                                 string Departure,Terminal;
+                                 round->SortAlphabetAscending();
+                                 round->ShowlistDeparture();
+                                do{
+                                  cout << "Choose Departue Staion (Abbreviation 3 Characture) : ";                      
+                                    cin >> Departure;
+                                    for(int i = 0; i< Departure.length() ; i++){
+                                        Departure[i] = toupper(Departure[i]);
+                                    }
+                                    if(Departure.length() > 3 || Departure.length() < 3 || round->CheckDeparture(Departure) == false){
+                                        cout << "Abbreviation is 3 Characture ! " << endl;
+                                    }
+                                }while(Departure.length()>3 || Departure.length()<3 || round->CheckDeparture(Departure) == false);
+                                 round->SortAlphabetAscending();
+                                 round->ShowlistTerminal(Departure);
+                                do{
+                                 cout << "Choose Terminal Staion (Abbreviation 3 Characture) : ";     
+                                    cin >> Terminal;
+                                    for(int i = 0; i< Terminal.length() ; i++){
+                                        Terminal[i] = toupper(Terminal[i]);
+                                    }
+                                    if(Terminal.length() > 3 || Terminal.length() < 3 || round->CheckTerminal(Terminal) == false){
+                                        cout << "Abbreviation is 3 Characture ! " << endl;
+                                    }
+                                }while(Terminal.length()>3 || Terminal.length()<3 || round->CheckTerminal(Terminal) == false);
+                                
+                                    Roundlist *Buy = new Roundlist;
+                                    string time;
+                                    Buy = round->BuyTicket(Departure,Terminal);
+                                if(Buy != NULL){
+                                     Buy->timeout.show();
+                                     cout << "Choose the Time : "; cin >> time;
+                                     if(Buy->timeout.checkTime(time) != -1){
+                                        int seat,preple,Total=0;
+                                        cout << "How Preple ? : "; cin >> preple;
+                                        for(int i = 1 ; i <= preple ; i++){
+                                        Buy->timeout.time[Buy->timeout.checkTime(time)].showseatNormal();
+                                        do{
+                                        cout << "Input Seat Ex. (01) :"; cin >> seat;
+                                        if(seat > 59 || seat < 1){
+                                            cout << "Threre are not Seat!! " << endl;
+                                            }
+                                        }while(seat > 59 || seat < 1);
+                                        //linklist Total Round -> Queue Time -> time [ index ] -> Seat Normal -> Set Seat 
+                                        Buy->timeout.time[Buy->timeout.checkTime(time)].normalseat.setseat(seat);
+                                        Buy->timeout.time[Buy->timeout.checkTime(time)].showseatNormal();
+                                        ticket->set(Buy->Departure,Buy->terminal,Buy->Price,seat,time);
+                                        ticket->printTicket();
+                                        Total += Buy->Price;
+                                            }
+                                    // cout<< "test : " << Buy->timeout.checkTime(time) << endl;
+                                        cout << "Total = :" << Total << "Bath" << endl;
+                                        }else{
+                                        cout << "NOT TIME" << endl;
+                                       }
+                                 }else{
+                                        cout << "Error" << endl;
+                                    }
+                                    goto mainmenu;
+                            }
+                          }while(menu_buy_member != 4);
+
                         }else if(member_menu == 2){
                             cout << "COMMING SOON" << endl;
                         }else if(member_menu == 3){
@@ -800,8 +1185,10 @@ int main(){
                             cout << "COMMING SOON" << endl;
                         } 
                     }while(member_menu != 5);
+                    goto mainmenu;
                }else{
                    cout << "Invalid Username and Password" << endl;  
+                   goto mainmenu;
                }
          }while(member_loggin != 2);
        }
@@ -845,6 +1232,7 @@ int main(){
 
              if(is_commit == 'y'){
                  customerControl->ResigerUser(username,user_pass,name,lastname,tel,id_card,0);  
+                 customerControl->writefile();
                  cout << "Save Complete" << endl;
              }
              else if(is_commit == 'n'){
@@ -856,5 +1244,4 @@ int main(){
          cin.ignore(100, '\n'); 
     }
   }while(main_menu!=4);
-  customerControl->writefile();
 }//main
