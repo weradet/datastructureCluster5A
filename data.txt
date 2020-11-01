@@ -1,2 +1,2 @@
 ,,,,,,-8
-fluk,1234,weradet,nopsombun,086543145,1248800599652,0
+fluk,1234,weradet,nopsombun,086543145,1248800599652,100
