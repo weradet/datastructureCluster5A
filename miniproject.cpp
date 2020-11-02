@@ -536,11 +536,15 @@ class CustomerUser{
          string code;
         do{
          cout << "Do you Use Code ?? ( Enter 'no' for not use ) : ";  cin >> code;
-        }while(code != "no");    
+        }while(code != "no" && code != "GIFZFAQWQ" && code != "weradet" && code != "FLUK");    
 
         if(code == "GIFZFAQWQ"){
+           price = price - 500; 
+         } else if(code == "weradet"){
+           price = price - 700; 
+         } else if(code == "FLUK"){
            price = price - 2000; 
-         }             
+         }              
         if(price < 0){
              price = 0;
         }
@@ -552,6 +556,15 @@ class CustomerUser{
             }
         }while(User_price < price);
         Setpoint(100);  
+     }
+     bool checkpoint(int point){
+           if(customer_point >= point){
+              return true;
+           }
+           return false;
+     }
+     void Changepoint(int point){
+         customer_point -= point;
      }
 };
 
@@ -1315,8 +1328,83 @@ int main(){
                                             round->Searchround(departure,desination);
                                         }
                                 }while(menu_view!=3);
+
                         }else if(member_menu == 3){
-                            cout << "COMMING SOON" << endl;
+                              CustomerUser *temp = customerControl->getname(username);
+                            int answer;
+                            do{
+                                promotion:
+                               cout << "ALL Promotions !!!" << endl;
+                               cout << "1. 3,000 Point Discount 500 Bath : " << endl;
+                               cout << "2. 5,000 Point Discount 700 Bath : " << endl;
+                               cout << "3. 10,000 Point Discount 2,000 Bath for family : " << endl;
+                               cout << "4. Back to menu" << endl;
+                               cout << "Please Choose Answer : "; cin >> answer;
+                               if(!cin){
+                                 cin.clear(); 
+                                 cin.ignore(100, '\n'); 
+                               }
+                               switch (answer)
+                               {
+                               case 1:
+                                   char commit; 
+                                   cout << "Your Point is : " << temp->getpoint () << endl;
+                                   cout << "Do you want to Commit Promotions ? (y/n) :";  cin >> commit;
+                                    if(commit == 'y'){
+                                        if(temp->checkpoint(3000)){
+                                             cout << "Sussess !!" << endl;
+                                             temp->Changepoint(3000); 
+                                             cout << "Code : " << "GIFZFAQWQ" << endl;
+                                        }else
+                                        {
+                                            cout << "Cannot " << endl;
+                                        }    
+                                    }
+                                    else{
+                                        goto  promotion;
+                                    }
+                                   break;
+                                 case 2:
+                                   char commitPro2; 
+                                   cout << "Your Point is : " << temp->getpoint () << endl;
+                                   cout << "Do you want to Commit Promotions ? (y/n) :";  cin >> commitPro2;
+                                    if(commitPro2 == 'y'){
+                                        if(temp->checkpoint(5000)){
+                                             cout << "Sussess !!" << endl;
+                                             temp->Changepoint(5000); 
+                                             cout << "Code : " << "weradet" << endl;
+                                        }else
+                                        {
+                                            cout << "Cannot " << endl;
+                                        }    
+                                    }
+                                    else{
+                                        goto  promotion;
+                                    }   
+                                    break;
+                                 case 3:
+                                   char commitPro3; 
+                                   cout << "Your Point is : " << temp->getpoint () << endl;
+                                   cout << "Do you want to Commit Promotions ? (y/n) :";  cin >> commitPro3;
+                                    if(commitPro3 == 'y'){
+                                        if(temp->checkpoint(10000)){
+                                             cout << "Sussess !!" << endl;
+                                             temp->Changepoint(10000); 
+                                             cout << "Code : " << "FLUK" << endl;
+                                        }else
+                                        {
+                                            cout << "Cannot " << endl;
+                                        }    
+                                    }
+                                    else{
+                                        goto  promotion;
+                                    }   
+                                    break;   
+                               
+                               } // switch
+                            }while(answer != 4);
+                       
+
                         }else if(member_menu == 4){
                             cout << "COMMING SOON" << endl;
                         } 
