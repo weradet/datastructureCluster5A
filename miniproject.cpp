@@ -1689,7 +1689,8 @@ int main(){
                        
 
                         }else if(member_menu == 4){
-                            cout << "COMMING SOON" << endl;
+                            cout << "Name : " << temp->getName() << "\t" << temp->getLastname() << endl;
+                            cout << "Your Point is : " << temp->getpoint () << endl;
                         } 
                     }while(member_menu != 5);
                     goto mainmenu;
