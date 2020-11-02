@@ -1610,7 +1610,7 @@ int main(){
                                             cout << "Please Input Termonal : ";getline(cin,desination);
                                             round->Searchround(departure,desination);
                                         }
-                                }while(menu_view!=3);
+                                }while(menu_view!=3);//
 
                         }else if(member_menu == 3){
                               CustomerUser *temp = customerControl->getname(username);
