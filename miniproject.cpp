@@ -1444,11 +1444,11 @@ int main(){
                                                     string time,date;
                                                     Buy = round->BuyTicket(Departure,Terminal);
                                                         do{
-                                                        thisis:
+                                                        thisis2:
                                                         cout << "Input Return date (d/m/y) Ex.(1/05/2012) : "; cin >> date;
                                                             if(CheckDatePresent(date) == false){
                                                             cout << "Input again !! " << endl;
-                                                            goto thisis;                                              
+                                                            goto thisis2;                                              
                                                             } 
                                                         }while(CountDate(date) != 2);
                                                     if(Buy != NULL){
@@ -1475,13 +1475,106 @@ int main(){
                                                             }
                                                     // cout<< "test : " << Buy->timeout.checkTime(time) << endl;
                                                         cout << "Total = :" << Total << "Bath" << endl;
+                                                        temp->Payment(Total);
                                                         }else{
                                                         cout << "NOT TIME" << endl;
-                                                    }
+                                                        }
                                                     }else{
                                                         cout << "Error" << endl;
                                                     }
-                                        }
+                                        }else if(menu_ad == 2){
+                                string Departure,Terminal;
+                                round->SortAlphabetAscending();
+                                system("cls");
+                                round->ShowlistDeparture();
+                                do{
+                                cout << "Choose Departue Staion (Abbreviation 3 Characture) : ";                      
+                                    cin >> Departure;
+                                    for(int i = 0; i< Departure.length() ; i++){
+                                        Departure[i] = toupper(Departure[i]);
+                                    }
+                                    if(Departure.length() > 3 || Departure.length() < 3 || round->CheckDeparture(Departure) == false){
+                                        cout << "Abbreviation is 3 Characture ! " << endl;
+                                    }
+                                }while(Departure.length()>3 || Departure.length()<3 || round->CheckDeparture(Departure) == false);
+                                round->SortAlphabetAscending();
+                                system("cls");
+                                round->ShowlistTerminal(Departure);
+                                do{
+                                cout << "Choose Terminal Staion (Abbreviation 3 Characture) : ";     
+                                    cin >> Terminal;
+                                    for(int i = 0; i< Terminal.length() ; i++){
+                                        Terminal[i] = toupper(Terminal[i]);
+                                    }
+                                    if(Terminal.length() > 3 || Terminal.length() < 3 || round->CheckTerminal(Terminal) == false){
+                                        cout << "Abbreviation is 3 Characture ! " << endl;
+                                    }
+                                }while(Terminal.length()>3 || Terminal.length()<3 || round->CheckTerminal(Terminal) == false);                     
+                                    Roundlist *BuyGo = new Roundlist;
+                                    Roundlist *BuyBack = new Roundlist;
+                                    string timeto,timeback,dategoto,datereturn;
+                                    BuyGo = round->BuyTicket(Departure,Terminal);
+                                    BuyBack = round->BuyTicket(Terminal,Departure);
+                                    do{
+                                        loop5:
+                                    cout << "Please enter the day you want to go. Ex.(1/12/2020) : "; cin >> dategoto;
+                                        if(CheckDatePresent(dategoto) == false){
+                                            cout << "Input again !! " << endl;
+                                            goto loop5;
+                                        }     
+                                    }while(CountDate(dategoto) != 2);
+                                    
+                                    do{
+                                        loop6:
+                                    cout << "Please enter the day you want to back. Ex.(1/12/2020) : "; cin >> datereturn;
+                                        if(CheckDatePresent(datereturn) == false){
+                                            cout << "Input again !! " << endl;
+                                            goto loop6;
+                                        }     
+                                    }while(CountDate(datereturn) != 2);
+
+                                    if(BuyGo != NULL){
+
+                                            BuyGo->timeout.show();
+                                            cout << "Choose the Time To : "; cin >> timeto;
+                                            BuyBack->timeout.show();
+                                            cout << "Choose the Time Back : "; cin >> timeback;
+
+                                            if(BuyGo->timeout.checkTime(timeto) != -1 && BuyBack->timeout.checkTime(timeback)){
+                                                int seat,preple,Total=0;
+                                                cout << "How Preple? : "; cin >> preple;
+
+                                                for(int i = 1 ; i <= preple ; i++){
+                                                BuyGo->timeout.time[BuyGo->timeout.checkTime(timeto)].showseatNormal();
+
+                                                do{
+                                                cout << "Input Seat Ex.(01) : "; cin >> seat;
+                                                if(seat > 59 || seat < 1){
+                                                    cout << "Threre are not Seat!! " << endl;
+                                                    }
+                                                }while(seat > 59 || seat < 1);
+                                                //linklist Total Round -> Queue Time -> time [ index ] -> Seat Normal -> Set Seat 
+                                                    BuyGo->timeout.time[BuyGo->timeout.checkTime(timeto)].normalseat.setseat(seat);
+                                                    BuyGo->timeout.time[BuyGo->timeout.checkTime(timeto)].showseatNormal();
+                                                    ticket->set(BuyGo->Departure,BuyGo->terminal,BuyGo->Price,seat,timeto);
+                                                    ticket->setRoundTripgoto(dategoto);
+                                                    ticket->setRoundTripreturn(datereturn);
+                                                    //ticket->printTicket();
+                                                    ticket->printAdvacegoto();
+                                                    ticket->printAdvacereturn();
+                                                    Total += BuyGo->Price;
+                                                    Total *= 2;
+                                                    }                                          
+                                            // cout<< "test : " << Buy->timeout.checkTime(time) << endl;
+                                                cout << "Total = : " << Total << " Bath" << endl;
+                                                temp->Payment(Total);
+                                            }else{
+                                                cout << "NOT TIME" << endl;
+                                            }
+                                    }else{
+                                        cout << "Error" << endl;
+                                    }
+                                }
                                     }while(menu_ad != 3);
                                 }
                         }while(menu_buy_member != 4);
